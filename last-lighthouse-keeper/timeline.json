@@ -1,0 +1,123 @@
+{
+ "DUR": 41.0,
+ "cues": [
+  {
+   "id": "L1",
+   "t0": 0.45,
+   "t1": 3.94,
+   "text": "Tonight, the lighthouse stops needing its keeper.",
+   "at": 0.6,
+   "end": 3.798
+  },
+  {
+   "id": "L2",
+   "t0": 3.95,
+   "t1": 8.616,
+   "text": "For 41 years, Elias climbed these steps at dusk.",
+   "at": 4.1,
+   "end": 8.016
+  },
+  {
+   "id": "L3",
+   "t0": 9.05,
+   "t1": 11.74,
+   "text": "Tomorrow, a machine takes over.",
+   "at": 9.2,
+   "end": 11.666
+  },
+  {
+   "id": "L4",
+   "t0": 11.75,
+   "t1": 15.773,
+   "text": "So tonight, he lights the lamp one last time.",
+   "at": 11.9,
+   "end": 15.173
+  },
+  {
+   "id": "L5",
+   "t0": 24.25,
+   "t1": 27.305,
+   "text": "Out at sea, a ship answers.",
+   "at": 24.4,
+   "end": 26.705
+  },
+  {
+   "id": "L6",
+   "t0": 30.75,
+   "t1": 34.329,
+   "text": "Two letters in Morse code: thank you.",
+   "at": 30.9,
+   "end": 33.729
+  },
+  {
+   "id": "L7",
+   "t0": 35.55,
+   "t1": 41.3,
+   "text": "He watches the light turn, then walks home.",
+   "at": 35.7,
+   "end": 38.912
+  }
+ ],
+ "HIT": {
+  "door": 3.6,
+  "climb": [
+   6.6,
+   15.0
+  ],
+  "windows": [
+   6.9,
+   7.94,
+   8.98,
+   10.02,
+   11.06,
+   12.100000000000001,
+   13.14,
+   14.18
+  ],
+  "wipe": 15.6,
+  "raise": 16.0,
+  "light": 18.0,
+  "turn": 20.2,
+  "shipLit": 24.2,
+  "horn": 26.8,
+  "morse": [
+   [
+    30.2,
+    30.95
+   ],
+   [
+    31.7,
+    31.95
+   ],
+   [
+    32.2,
+    32.45
+   ],
+   [
+    32.7,
+    33.45
+   ]
+  ],
+  "title": 35.8,
+  "home": 35.4,
+  "beamCycle0": 21.8,
+  "beamPeriod": 6.0
+ },
+ "SHOTS": [
+  [
+   "W1",
+   0.0,
+   null
+  ],
+  [
+   "ROOM",
+   15.6,
+   "cut"
+  ],
+  [
+   "W2",
+   22.0,
+   "dissolve"
+  ]
+ ]
+}

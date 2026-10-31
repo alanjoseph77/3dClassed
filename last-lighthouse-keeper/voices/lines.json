@@ -1,0 +1,9 @@
+[
+ {"id": "L1", "text": "Tonight, the lighthouse stops needing its keeper.", "voice": "bm_george", "speed": 0.9},
+ {"id": "L2", "text": "For forty-one years, Elias climbed these steps at dusk.", "voice": "bm_george", "speed": 0.9},
+ {"id": "L3", "text": "Tomorrow, a machine takes over.", "voice": "bm_george", "speed": 0.9},
+ {"id": "L4", "text": "So tonight, he lights the lamp one last time.", "voice": "bm_george", "speed": 0.88},
+ {"id": "L5", "text": "Out at sea, a ship answers.", "voice": "bm_george", "speed": 0.9},
+ {"id": "L6", "text": "Two letters in Morse code: thank you.", "voice": "bm_george", "speed": 0.86},
+ {"id": "L7", "text": "He watches the light turn, then walks home.", "voice": "bm_george", "speed": 0.86}
+]

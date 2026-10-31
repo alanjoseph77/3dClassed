@@ -1,0 +1,20 @@
+The Last Lighthouse Keeper: credits for third-party material
+
+Picture
+- Drawn entirely in code (three.js paper layers). Engine files src/lib.js, src/paper.js, src/stage.js, src/post.js
+  are adapted from the Lemo-Opuscar library (github.com/lemomo-ai/lemo-opuscar), MIT licence.
+- three.js (threejs.org), MIT licence.
+- Font: IM FELL English by Igino Marini (www.iginomarini.com), SIL Open Font License 1.1,
+  Reserved Font Name "IM FELL English Roman" (subset shipped in the library's core/fonts/).
+
+Voice
+- Narration synthesised with Kokoro-82M (github.com/hexgrad/kokoro, Apache License 2.0) through kokoro-onnx
+  (github.com/thewh1teagle/kokoro-onnx, MIT), voice "bm_george".
+
+Music and sound
+- Original score, written for this film. Harp, kalimba and music box are physically modelled in code
+  (Lemo-Opuscar core/audio/pluck.py, MIT); celesta, string pad and ship horn are synthesised in numpy.
+- All foley (sea, wind, footsteps, door, flare, clockwork, chimes) is procedurally synthesised
+  (Lemo-Opuscar core/audio/sfx.py, MIT). No samples or recordings from third parties.
+
+Story, script, characters and design: original. The lighthouse, the keeper "Elias" and the ship are fictional.
