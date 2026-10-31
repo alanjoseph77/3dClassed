@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Client Finder</title>
+<style>
+:root{--bg:#f6f5f1;--card:#fff;--ink:#17191e;--mute:#5f6773;--line:#e2e0d9;--acc:#2a43c4;--accInk:#fff;--soft:#e8ebf7;--ok:#16794c;--warn:#b54708;--bad:#b42318}
+@media (prefers-color-scheme:dark){:root{--bg:#101216;--card:#181b21;--ink:#eceff3;--mute:#9aa3ae;--line:#2a2f37;--acc:#8ea0ff;--accInk:#0d1020;--soft:#1e2540;--ok:#5fd39b;--warn:#f0a35c;--bad:#ff8a80}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{width:min(960px,100% - 24px);margin:auto;padding:16px 0 60px}
+h1{font-size:22px;margin:6px 0 2px;letter-spacing:-.02em}.lead{color:var(--mute);margin:0 0 14px;font-size:14px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5}
+.tabs button{font:600 14px system-ui;padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}.tabs button[aria-pressed=true]{background:var(--acc);color:var(--accInk);border-color:var(--acc)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+label{display:block;font-weight:600;font-size:13px;margin-bottom:4px}input,select,textarea{width:100%;font:inherit;padding:9px 10px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--acc);outline-offset:1px}textarea{resize:vertical}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.btn{font:700 14px system-ui;padding:9px 14px;border-radius:9px;border:1px solid var(--acc);background:var(--acc);color:var(--accInk);cursor:pointer;text-decoration:none;display:inline-block}.btn.ghost{background:transparent;color:var(--acc)}.btn.sm{padding:5px 10px;font-size:13px}.btn.bad{border-color:var(--bad);color:var(--bad);background:transparent}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:12px}.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}.stat b{display:block;font-size:24px;letter-spacing:-.02em}.stat span{color:var(--mute);font-size:12px}
+.goal{height:8px;background:var(--line);border-radius:9px;overflow:hidden;margin-top:6px}.goal i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+.lead-item{display:grid;grid-template-columns:1fr auto;gap:8px;border-top:1px solid var(--line);padding:11px 0}.lead-item:first-child{border-top:0}
+.lead-item h3{margin:0;font-size:16px}.meta{color:var(--mute);font-size:13px}.due{color:var(--warn);font-weight:700}.late{color:var(--bad);font-weight:700}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.pill{font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--soft);color:var(--acc)}
+.tpl pre{white-space:pre-wrap;word-wrap:break-word;font:14px/1.5 inherit;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;margin:8px 0}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-top:1px solid var(--line)}.chk:first-of-type{border-top:0}.chk input{width:20px;height:20px;margin-top:2px;flex:none}.chk.done span{text-decoration:line-through;color:var(--mute)}
+.day{font-weight:800;margin:14px 0 4px}.note{font-size:13px;color:var(--mute)}ul.tips{padding-left:20px}ul.tips li{margin:6px 0}
+@media(max-width:560px){.lead-item{grid-template-columns:1fr}}
+</style>
+</head>
+<body><div class="wrap">
+<h1>Client Finder</h1><p class="lead">Your leads, your messages, your daily plan. Everything is saved on this device only.</p>
+<div class="tabs" role="tablist"><button data-tab="leads" aria-pressed="true">Leads</button><button data-tab="msgs" aria-pressed="false">Messages</button><button data-tab="plan" aria-pressed="false">14-day plan</button><button data-tab="where" aria-pressed="false">Where to look</button></div>
+
+<section id="t-leads">
+  <div class="stats" id="stats"></div>
+  <div class="card"><b>Today's goal</b> <span class="note" id="goalTxt"></span><div class="goal"><i id="goalBar"></i></div></div>
+  <form class="card" id="addForm"><div class="row">
+    <div><label for="lName">Business name</label><input id="lName" required></div>
+    <div><label for="lContact">Owner / contact name</label><input id="lContact"></div>
+    <div><label for="lPhone">WhatsApp / phone</label><input id="lPhone" inputmode="tel"></div>
+    <div><label for="lType">Type</label><select id="lType"><option>Clinic / dentist</option><option>Salon / spa</option><option>Gym / fitness</option><option>Tuition / coaching</option><option>Repair / service</option><option>Other</option></select></div>
+    <div><label for="lArea">Area</label><input id="lArea"></div>
+    <div><label for="lSrc">Found on</label><select id="lSrc"><option>Google Maps</option><option>Instagram</option><option>Walked in</option><option>Referral</option><option>Facebook / group</option><option>Other</option></select></div>
+  </div><div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="submit">Add lead</button><span class="note" style="align-self:center">Tip: add 10 a day. Quality: busy, takes bookings, has a phone number.</span></div></form>
+  <div class="card"><div class="row" style="margin-bottom:10px"><div><label for="fStatus">Show</label><select id="fStatus"></select></div><div><label for="fSearch">Search</label><input id="fSearch" placeholder="name, area…"></div></div>
+    <div id="list"></div><div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost sm" id="exportCsv">Download list (CSV)</button><button class="btn bad sm" id="wipe">Delete all leads</button></div></div>
+</section>
+
+<section id="t-msgs" hidden>
+  <div class="card"><div class="row">
+    <div><label for="sName">Your name</label><input id="sName" placeholder="Alan"></div>
+    <div><label for="sBrand">Your service name</label><input id="sBrand" value="ShowUp"></div>
+    <div><label for="sPrice">Starting price</label><input id="sPrice" value="₹1,499 a month"></div>
+    <div><label for="sLink">Demo / website link</label><input id="sLink" placeholder="https://…"></div>
+  </div><p class="note" style="margin:8px 0 0">Fill these once. The messages below update, and "Message on WhatsApp" on a lead uses them.</p></div>
+  <div id="tpls"></div>
+</section>
+
+<section id="t-plan" hidden><div class="card" id="planBox"></div></section>
+
+<section id="t-where" hidden>
+  <div class="card"><h3 style="margin-top:0">Where to find businesses that need this</h3><ul class="tips">
+    <li><b>Google Maps:</b> search "dentist near me", "salon", "physiotherapy", "tuition centre" in your area. Open each result: <i>lots of reviews, a phone number, open late</i> = busy = good lead. Look at "popular times" to find the very busy ones.</li>
+    <li><b>Instagram:</b> search the same words with your city. Businesses that post often but answer comments slowly are your best leads.</li>
+    <li><b>Walk in:</b> 10 shops on one street in an afternoon beats 100 online messages. Ask for the owner or manager and offer to show a 1-minute demo on your phone.</li>
+    <li><b>Referrals:</b> ask every friend and family member: "Do you know anyone who runs a clinic, salon or shop?" A warm intro is worth ten cold messages.</li>
+    <li><b>Local WhatsApp and Facebook groups:</b> don't advertise. Answer questions about missed appointments or customer messages helpfully, and offer a free check.</li>
+    <li><b>Your existing customers:</b> if you already do design or video work, the same owners need this too.</li>
+  </ul></div>
+  <div class="card"><h3 style="margin-top:0">Do it the right way</h3><ul class="tips">
+    <li><b>One message at a time, to the business owner.</b> Mass-sending or buying number lists gets WhatsApp numbers banned and breaks anti-spam rules (for example, calls and SMS to numbers on a do-not-disturb list are not allowed in India).</li>
+    <li>Say who you are and why you're writing, keep it short, and <b>stop if they say no.</b></li>
+    <li>Never promise results you can't prove. Offer a short <b>free trial and measure the no-shows</b> before and after.</li>
+    <li>Handle their customer data carefully: use it only to send the messages for that business, never to sell or share it.</li>
+    <li>Get the price and what is included in writing (WhatsApp is fine) before you start.</li>
+  </ul></div>
+</section>
+</div>
+<script>
+/* all data stays in this browser (localStorage); nothing is sent anywhere */
+const $ = id => document.getElementById(id);
+const STATUS = ["New", "Contacted", "Replied", "Demo sent", "Pilot running", "Paid", "Not now"];
+const store = { get(k, d){ try { const v = localStorage.getItem("cf-" + k); return v ? JSON.parse(v) : d; } catch(e){ return d; } }, set(k, v){ try { localStorage.setItem("cf-" + k, JSON.stringify(v)); } catch(e){} } };
+let leads = store.get("leads", []), me = store.get("me", { sName: "", sBrand: "ShowUp", sPrice: "₹1,499 a month", sLink: "" }), plan = store.get("plan", {}), log = store.get("log", {});
+const today = () => new Date().toISOString().slice(0, 10), addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x.toISOString().slice(0, 10); };
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const save = () => { store.set("leads", leads); store.set("log", log); };
+
+/* tabs */
+document.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { document.querySelectorAll("[data-tab]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); ["leads", "msgs", "plan", "where"].forEach(t => $("t-" + t).hidden = t !== b.dataset.tab); });
+
+/* templates */
+const TPL = [
+ ["First message (WhatsApp)", "Hi {contact}, this is {me}. I help {type} businesses in {area} stop losing money to no-shows by sending customers automatic WhatsApp reminders.\n\nI made a 1-minute demo for {business}: {link}\n\nWould it be okay if I send you a quick example of how it would work for you? (If not interested, no problem at all.)"],
+ ["Follow-up after 2 days", "Hi {contact}, {me} here again. Just checking if you saw my note about reminders for {business}. Many owners tell me no-shows are their biggest hidden cost. Happy to show you in 5 minutes whenever suits you."],
+ ["Follow-up after 5 days (last)", "Hi {contact}, I won't keep bothering you. If missed appointments or slow replies ever become a problem, I can help: {brand} starts at {price}. Here's the demo again: {link}. Have a great week!"],
+ ["Instagram DM", "Hi! Love what you're doing at {business} 🙌 I build automatic appointment reminders and follow-ups so businesses like yours get fewer no-shows. I'd love to set one up free for 14 days. Want to see a 1-minute demo?"],
+ ["Walk-in introduction", "Hello, I'm {me}. I help local businesses reduce missed appointments with automatic WhatsApp reminders. Do you have 2 minutes? I can show you on my phone how it would look for {business}, and I'm offering a free 14-day trial to the first few shops."],
+ ["Cold email", "Subject: Fewer no-shows at {business}?\n\nHi {contact},\n\nI'm {me}. I set up automatic reminders, confirmations and review requests for {type} businesses in {area}. Owners usually see fewer missed appointments within the first month.\n\nHere's a 1-minute demo: {link}\n\nWould you be open to a free 14-day trial? I'll set it up and we'll measure the no-shows before and after.\n\nThank you,\n{me}"],
+ ["Phone call opener", "\"Hello {contact}, this is {me}. I'm calling because I help {type} businesses in {area} get fewer no-shows with automatic reminders. Is this a good moment for 30 seconds? ... Do you find that customers sometimes forget their appointments? ... I'd like to set it up free for two weeks so you can see the difference. Can I send you a short demo on WhatsApp?\""],
+ ["Pilot offer (after they say yes)", "Great, {contact}! Here's what happens next:\n1. You send me your usual booking details (a sheet or your calendar) and the wording you like.\n2. I set up confirmation, 24 h and 2 h reminders and a review request.\n3. We run it free for 14 days and compare no-shows with your last month.\nIf it works, {brand} is {price}. If not, you owe nothing."],
+ ["After the trial (ask to continue)", "Hi {contact}, the 14 days are up! Over the trial your customers got {n} reminders. Want to keep it running at {price}? I'll also send you the results summary. A short testimonial from you would help me a lot too. Thank you!"],
+];
+function fill(t, l){ const v = { contact: (l && l.contact) || "there", business: (l && l.name) || "your business", type: l ? l.type.split(" / ")[0].toLowerCase() : "local", area: (l && l.area) || "your area", me: me.sName || "[your name]", brand: me.sBrand || "ShowUp", price: me.sPrice || "[price]", link: me.sLink || "[demo link]", n: "[number]" }; return t.replace(/\{(\w+)\}/g, (m, k) => v[k] != null ? v[k] : m); }
+function renderTpls(){ $("tpls").innerHTML = TPL.map((t, i) => `<div class="card tpl"><b>${esc(t[0])}</b><pre id="tp${i}">${esc(fill(t[1], null))}</pre><button class="btn ghost sm" data-copy="${i}">Copy</button></div>`).join(""); document.querySelectorAll("[data-copy]").forEach(b => b.onclick = () => { navigator.clipboard.writeText($("tp" + b.dataset.copy).textContent).then(() => { b.textContent = "Copied ✓"; setTimeout(() => b.textContent = "Copy", 1400); }); }); }
+["sName", "sBrand", "sPrice", "sLink"].forEach(id => { $(id).value = me[id] || ""; $(id).oninput = () => { me[id] = $(id).value; store.set("me", me); renderTpls(); }; }); renderTpls();
+
+/* leads */
+$("fStatus").innerHTML = '<option value="">All</option><option value="__due">Follow-up due</option>' + STATUS.map(s => `<option>${s}</option>`).join("");
+$("addForm").onsubmit = e => { e.preventDefault(); const name = $("lName").value.trim(); if (!name) return; leads.unshift({ id: Date.now(), name, contact: $("lContact").value.trim(), phone: $("lPhone").value.replace(/[^\d+]/g, ""), type: $("lType").value, area: $("lArea").value.trim(), src: $("lSrc").value, status: "New", next: today(), notes: "", added: today() }); $("addForm").reset(); save(); render(); };
+const touch = (l, status) => { const was = l.status; l.status = status; if (status === "Contacted") { l.next = addDays(today(), 2); if (was === "New") log[today()] = (log[today()] || 0) + 1; } else if (status === "Demo sent") l.next = addDays(today(), 3); else if (["Paid", "Not now"].includes(status)) l.next = ""; else l.next = addDays(today(), 2); save(); render(); };
+function render(){
+  const t = today(), n = s => leads.filter(l => l.status === s).length, due = leads.filter(l => l.next && l.next <= t && !["Paid", "Not now"].includes(l.status));
+  $("stats").innerHTML = [["Leads", leads.length], ["Contacted", leads.filter(l => l.status !== "New").length], ["Replied", n("Replied") + n("Demo sent")], ["Pilots", n("Pilot running")], ["Paid", n("Paid")], ["Follow-ups due", due.length]].map(([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`).join("");
+  const done = log[t] || 0; $("goalTxt").textContent = done + " of 10 messages sent today"; $("goalBar").style.width = Math.min(100, done * 10) + "%";
+  const q = $("fSearch").value.toLowerCase(), f = $("fStatus").value;
+  const list = leads.filter(l => (!f || (f === "__due" ? due.includes(l) : l.status === f)) && (!q || (l.name + l.area + l.contact + l.type).toLowerCase().includes(q))).sort((a, b) => (a.next || "9").localeCompare(b.next || "9"));
+  $("list").innerHTML = list.length ? list.map(l => { const late = l.next && l.next < t, dueNow = l.next === t; return `<div class="lead-item"><div><h3>${esc(l.name)} <span class="pill">${esc(l.status)}</span></h3>
+    <div class="meta">${esc([l.contact, l.type, l.area, "via " + l.src].filter(Boolean).join(" · "))}${l.phone ? " · " + esc(l.phone) : ""}</div>
+    ${l.next ? `<div class="meta ${late ? "late" : dueNow ? "due" : ""}">Follow up: ${late ? "overdue since " : dueNow ? "today " : ""}${esc(l.next)}</div>` : ""}
+    <div class="acts">${l.phone ? `<a class="btn sm" target="_blank" rel="noopener" href="https://wa.me/${l.phone.replace(/^\+/, "")}?text=${encodeURIComponent(fill(TPL[l.status === "New" ? 0 : l.status === "Contacted" ? 1 : l.status === "Replied" ? 7 : 2][1], l))}" data-sent="${l.id}">Message on WhatsApp</a>` : ""}<button class="btn ghost sm" data-note="${l.id}">Notes</button><button class="btn bad sm" data-del="${l.id}">Delete</button></div>${l.notes ? `<div class="meta" style="margin-top:4px">📝 ${esc(l.notes)}</div>` : ""}</div>
+    <div><label for="st${l.id}">Status</label><select id="st${l.id}" data-st="${l.id}">${STATUS.map(s => `<option ${s === l.status ? "selected" : ""}>${s}</option>`).join("")}</select></div></div>`; }).join("") : '<p class="note">No leads here yet. Add your first one above.</p>';
+  document.querySelectorAll("[data-st]").forEach(s => s.onchange = () => touch(leads.find(l => l.id == s.dataset.st), s.value));
+  document.querySelectorAll("[data-del]").forEach(b => b.onclick = () => { if (confirm("Delete this lead?")) { leads = leads.filter(l => l.id != b.dataset.del); save(); render(); } });
+  document.querySelectorAll("[data-note]").forEach(b => b.onclick = () => { const l = leads.find(x => x.id == b.dataset.note), v = prompt("Notes for " + l.name, l.notes); if (v !== null){ l.notes = v; save(); render(); } });
+  document.querySelectorAll("[data-sent]").forEach(a => a.addEventListener("click", () => { const l = leads.find(x => x.id == a.dataset.sent); if (l.status === "New") setTimeout(() => touch(l, "Contacted"), 400); }));
+}
+$("fStatus").onchange = $("fSearch").oninput = render;
+$("exportCsv").onclick = () => { const h = ["Business", "Contact", "Phone", "Type", "Area", "Found on", "Status", "Next follow-up", "Notes", "Added"], q = v => '"' + String(v || "").replace(/"/g, '""') + '"'; const csv = [h.map(q).join(",")].concat(leads.map(l => [l.name, l.contact, l.phone, l.type, l.area, l.src, l.status, l.next, l.notes, l.added].map(q).join(","))).join("\r\n"); const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["﻿" + csv], { type: "text/csv" })); a.download = "leads-" + today() + ".csv"; a.click(); };
+$("wipe").onclick = () => { if (leads.length && confirm("Delete ALL " + leads.length + " leads? This can't be undone.")) { leads = []; save(); render(); } };
+
+/* 14-day plan */
+const PLAN = [
+ ["Days 1–2: Get ready", ["Build one demo: a reminder flow in n8n/Make with a fake clinic, or screenshots of the messages", "Record a 1-minute screen video of the demo", "Fill in your name, price and demo link in the Messages tab", "Pick ONE type of business to start with (e.g. dentists)"]],
+ ["Days 3–4: Build your list", ["Add 20 leads from Google Maps (busy ones with a phone number)", "Add 10 more from Instagram", "List 10 people you know who could introduce you to an owner"]],
+ ["Days 5–7: First conversations", ["Message 10 owners one by one (use 'First message')", "Walk into 5 shops and show the demo on your phone", "Ask 5 friends or family for an introduction", "Log every reply in the Leads tab"]],
+ ["Days 8–10: Follow up and demo", ["Send the 2-day follow-up to everyone who hasn't replied", "Book 2–3 short demo calls or visits", "Offer a free 14-day pilot to your best 2 prospects"]],
+ ["Days 11–14: Start pilots, get paid", ["Set up the pilot for 1–2 businesses and write down their no-show numbers before you start", "Send the last follow-up to the rest", "Ask pilot clients for a testimonial", "Plan your next 20 leads based on what worked"]],
+];
+function renderPlan(){ $("planBox").innerHTML = '<p class="note" style="margin-top:0">Ticks are saved on this device. Expect to get a few "no"s. That is normal: aim for 30–50 conversations to land your first few clients.</p>' + PLAN.map(([t, items], gi) => `<div class="day">${esc(t)}</div>` + items.map((it, i) => { const k = gi + "-" + i; return `<label class="chk ${plan[k] ? "done" : ""}"><input type="checkbox" data-pk="${k}" ${plan[k] ? "checked" : ""}><span>${esc(it)}</span></label>`; }).join("")).join(""); document.querySelectorAll("[data-pk]").forEach(c => c.onchange = () => { plan[c.dataset.pk] = c.checked; store.set("plan", plan); c.closest(".chk").classList.toggle("done", c.checked); }); }
+renderPlan(); render();
+</script>
+</body></html>
