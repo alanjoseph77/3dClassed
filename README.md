@@ -19,3 +19,4 @@ setup scripts (LDraw library, LeoCAD, ldraw-nova), design rules, check/render st
 ## Other skills
 
 - [`.claude/skills/lemo-opuscar/`](.claude/skills/lemo-opuscar/SOURCE.md): **/lemo-opuscar**, short films made entirely in code in 66 styles (watercolor, ukiyo-e, brick toy, pixel RPG...), with narration and music. From [lemomo-ai/lemo-opuscar](https://github.com/lemomo-ai/lemo-opuscar) (MIT).
+- [`.claude/skills/anatomy/`](.claude/skills/anatomy/SOURCE.md): **/anatomy**, explains a technical idea as a crafted, interactive isometric machine drawing (SVG / WebGL / 3D). From [wheresryan22/anatomy](https://github.com/wheresryan22/anatomy) (MIT).
