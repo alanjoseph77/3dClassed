@@ -18,7 +18,9 @@ python3 "$HERE/tools/timeline.py"                                         # → 
 node core/render/events.mjs "$HERE" --size $SIZE
 node core/render/video.mjs "$HERE" --fps $FPS --workers $WORKERS --size $SIZE --out "$HERE/out/video.mp4"
 "$PY" "$HERE/mix.py"
-sh core/render/mux.sh "$HERE/out/video.mp4" "$HERE/out/mix.wav" "$HERE/last-lighthouse-keeper.mp4" $FPS 1
-node core/render/still.mjs "$HERE" 19.6 --size $SIZE --q "nosub=1" --out "$HERE/out/stills"
-ffmpeg -loglevel error -y -i "$HERE/out/stills/t_19.6.jpg" -q:v 3 "$HERE/poster.jpg"
+# mux + master to -14 LUFS. mux.sh needs ffmpeg 7+; with ffmpeg 6 it rejects the audio length, so fall back to the same two passes by hand
+sh core/render/mux.sh "$HERE/out/video.mp4" "$HERE/out/mix.wav" "$HERE/last-lighthouse-keeper.mp4" $FPS 1 || {
+  set -- $(ffmpeg -hide_banner -nostats -i "$HERE/out/mix.wav" -af loudnorm=I=-14:TP=-1.2:LRA=11:print_format=json -f null - 2>&1 | sed -n '/^{/,/^}/p' | python3 -c "import json,sys;d=json.load(sys.stdin);print(d['input_i'],d['input_tp'],d['input_lra'],d['input_thresh'],d['target_offset'])")
+  ffmpeg -v error -y -i "$HERE/out/video.mp4" -i "$HERE/out/mix.wav" -map 0:v -map 1:a -c:v copy -af "loudnorm=I=-14:TP=-1.2:LRA=11:measured_I=$1:measured_TP=$2:measured_LRA=$3:measured_thresh=$4:offset=$5:linear=true,aresample=48000,apad" -c:a aac -b:a 192k -t 41 -movflags +faststart "$HERE/last-lighthouse-keeper.mp4"; }
+ffmpeg -loglevel error -y -ss 19.6 -i "$HERE/last-lighthouse-keeper.mp4" -frames:v 1 -q:v 3 "$HERE/poster.jpg"
 echo "→ $HERE/last-lighthouse-keeper.mp4  $HERE/last-lighthouse-keeper.srt  $HERE/poster.jpg"

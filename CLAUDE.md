@@ -60,7 +60,8 @@ If nothing fits, do the task directly. If the same kind of task keeps coming bac
 - LDraw parts and LeoCAD: `apt-get install ldraw-parts leocad xvfb` (parts in `/usr/share/ldraw`); LeoCAD renders under `xvfb-run` with `LIBGL_ALWAYS_SOFTWARE=1`. Ubuntu's LeoCAD 21.06 has no `-csv`, so ldraw-nova's `review` stops at the BOM comparison: render with `ldraw-agent render` instead.
 - Chromium for tools that need a path: `/opt/pw-browsers/chromium-1243/chrome-linux64/chrome`.
 - **No GPU:** three.js films render at about 4–12 s per frame on CPU, so a 40 s vertical film takes over an hour. Start long renders in the background and do other work meanwhile.
-- ffmpeg is 6.1 here; `lemo-opuscar`'s `mux.sh` wants 7+.
+- ffmpeg is 6.1 here; `lemo-opuscar`'s `mux.sh` wants 7+ and rejects the audio length on 6.x. Fallback that worked: two-pass `loudnorm` (I=-14, TP=-1.2) by hand, `-c:v copy`, AAC 192k, `apad -t <duration>` (see `last-lighthouse-keeper/build.sh`), then check both stream durations and `ebur128`.
+- The Whisper model for `asr_check.py` comes from huggingface.co (blocked), so narration can't be speech-checked here: say so.
 - Containers are fresh each session: anything installed outside the repo (`~/lemo-opuscar`, `~/ldraw-nova`) has to be set up again. Only the repo persists.
 
 ## How to learn a new skill from a GitHub link
