@@ -1,0 +1,122 @@
+0 FILE tower-crane.ldr
+0 Flat-top construction tower crane (original design)
+0 Name: tower-crane.ldr
+0 Author: Claude Code for ldraw-nova user (original design)
+0 !LDRAW_ORG Model
+0 // base: 8x8 concrete pad
+1 72 0 0 0 1 0 0 0 1 0 0 0 1 41539.dat
+0 STEP
+0 // found: 4x4 mast footing
+1 71 0 -8 0 1 0 0 0 1 0 0 0 1 3031.dat
+0 // block-0: corner ballast block
+1 71 -60 -24 -60 1 0 0 0 1 0 0 0 1 3003.dat
+0 // block-1: corner ballast block
+1 71 60 -24 -60 1 0 0 0 1 0 0 0 1 3003.dat
+0 // block-2: corner ballast block
+1 71 -60 -24 60 1 0 0 0 1 0 0 0 1 3003.dat
+0 // block-3: corner ballast block
+1 71 60 -24 60 1 0 0 0 1 0 0 0 1 3003.dat
+0 STEP
+0 // blockcap-0: hazard-yellow cap
+1 14 -60 -32 -60 1 0 0 0 1 0 0 0 1 3068b.dat
+0 // blockcap-1: hazard-yellow cap
+1 14 60 -32 -60 1 0 0 0 1 0 0 0 1 3068b.dat
+0 // blockcap-2: hazard-yellow cap
+1 14 -60 -32 60 1 0 0 0 1 0 0 0 1 3068b.dat
+0 // blockcap-3: hazard-yellow cap
+1 14 60 -32 60 1 0 0 0 1 0 0 0 1 3068b.dat
+0 STEP
+0 // mast-0: mast section 1
+1 14 0 -200 0 1 0 0 0 1 0 0 0 1 30646.dat
+0 STEP
+0 // mast-1: mast section 2
+1 14 0 -392 0 1 0 0 0 1 0 0 0 1 30646.dat
+0 STEP
+0 // mast-2: mast section 3
+1 14 0 -584 0 1 0 0 0 1 0 0 0 1 30646.dat
+0 STEP
+0 // mast-cap: 4x4 slewing seat
+1 14 0 -592 0 1 0 0 0 1 0 0 0 1 3031.dat
+0 STEP
+0 // tt-base: slewing ring base
+1 72 0 -616 0 1 0 0 0 1 0 0 0 1 3403.dat
+0 // tt-top: slewing ring top
+1 72 0 -616 0 1 0 0 0 1 0 0 0 1 3404.dat
+0 STEP
+0 // jib-1: working jib inner section
+1 14 220 -616 0 1 0 0 0 1 0 0 0 1 30518.dat
+0 // jib-2: working jib outer section
+1 14 540 -616 0 1 0 0 0 1 0 0 0 1 30518.dat
+0 // cjib: counter-jib
+1 14 -220 -616 0 -1 0 0 0 1 0 0 0 -1 30518.dat
+0 STEP
+0 // deck: 4x10 slewing deck, locks both jib roots to the ring
+1 14 0 -624 0 1 0 0 0 1 0 0 0 1 3030.dat
+0 // splice: jib splice plate across the seam
+1 14 380 -624 0 1 0 0 0 1 0 0 0 1 3020.dat
+0 STEP
+0 // cab-wall-1: cab back wall
+1 14 70 -648 0 0 0 1 0 1 0 -1 0 0 3010.dat
+0 // cab-window: cab front window
+1 15 90 -672 0 0 0 1 0 1 0 -1 0 0 4863.dat
+0 STEP
+0 // cab-wall-2: cab back wall upper
+1 14 70 -672 0 0 0 1 0 1 0 -1 0 0 3010.dat
+0 STEP
+0 // cab-roof: cab roof
+1 14 80 -680 0 0 0 1 0 1 0 -1 0 0 3020.dat
+0 STEP
+0 // cab-tile: cab roof tile
+1 15 80 -688 0 0 0 1 0 1 0 -1 0 0 87079.dat
+0 STEP
+0 // house-1: hoist machinery house
+1 71 -80 -648 0 0 0 1 0 1 0 -1 0 0 3001.dat
+0 STEP
+0 // house-2: hoist machinery house
+1 71 -80 -672 0 0 0 1 0 1 0 -1 0 0 3001.dat
+0 STEP
+0 // house-roof: machinery roof
+1 72 -80 -680 0 0 0 1 0 1 0 -1 0 0 87079.dat
+0 STEP
+0 // winch: winch platform
+1 72 -20 -632 0 0 0 1 0 1 0 -1 0 0 3020.dat
+0 // grille: winch vent grille
+1 0 -20 -640 -10 1 0 0 0 1 0 0 0 1 3069b.dat
+0 // grille-b: winch vent grille
+1 0 -20 -640 10 1 0 0 0 1 0 0 0 1 3069b.dat
+0 STEP
+0 // ballast-0: concrete counterweight
+1 72 -340 -640 0 1 0 0 0 1 0 0 0 1 3001.dat
+0 STEP
+0 // ballast-1: concrete counterweight
+1 72 -340 -664 0 1 0 0 0 1 0 0 0 1 3001.dat
+0 STEP
+0 // ballast-2: concrete counterweight
+1 72 -340 -688 0 1 0 0 0 1 0 0 0 1 3001.dat
+0 STEP
+0 // ballast-cap: counterweight cap
+1 14 -340 -696 0 1 0 0 0 1 0 0 0 1 3020.dat
+0 STEP
+0 // tip-light: jib tip warning light
+1 36 690 -640 10 1 0 0 0 1 0 0 0 1 3062b.dat
+0 // tail-light: counter-jib warning light
+1 36 -370 -720 10 1 0 0 0 1 0 0 0 1 3062b.dat
+0 STEP
+0 // trolley: trolley riding on the jib top, overhanging both sides
+1 72 460 -624 0 0 0 1 0 1 0 -1 0 0 3020.dat
+0 STEP
+0 // rope-l: hoist rope fall (braided string 21L)
+1 0 460 -416 -30 0 -1 0 1 0 0 0 0 1 75924.dat
+0 STEP
+0 // rope-r: hoist rope fall (braided string 21L)
+1 0 460 -416 30 0 -1 0 1 0 0 0 0 1 75924.dat
+0 STEP
+0 // hookblock: hook block
+1 14 460 -216 0 0 0 1 0 1 0 -1 0 0 3001.dat
+0 STEP
+0 // hookblock-plate: hook block base
+1 72 460 -192 0 0 0 1 0 1 0 -1 0 0 3020.dat
+0 STEP
+0 // hook: crane hook
+1 71 460 -155.2 0 1 0 0 0 1 0 0 0 1 70644.dat
+0 NOFILE

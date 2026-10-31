@@ -1,0 +1,167 @@
+{
+  "model_sha256": "9ca2eeefc61aaa7bdaa8ab49ee9e1cd6cd8aef196b722e3f8f628f5f58cad825",
+  "bom": [
+    {
+      "part": "3001",
+      "description": "Brick  2 x  4",
+      "colour_code": 14,
+      "colour_name": "Yellow",
+      "quantity": 1
+    },
+    {
+      "part": "3001",
+      "description": "Brick  2 x  4",
+      "colour_code": 71,
+      "colour_name": "Light_Bluish_Grey",
+      "quantity": 2
+    },
+    {
+      "part": "3001",
+      "description": "Brick  2 x  4",
+      "colour_code": 72,
+      "colour_name": "Dark_Bluish_Grey",
+      "quantity": 3
+    },
+    {
+      "part": "3003",
+      "description": "Brick  2 x  2",
+      "colour_code": 71,
+      "colour_name": "Light_Bluish_Grey",
+      "quantity": 4
+    },
+    {
+      "part": "3010",
+      "description": "Brick  1 x  4",
+      "colour_code": 14,
+      "colour_name": "Yellow",
+      "quantity": 2
+    },
+    {
+      "part": "3020",
+      "description": "Plate  2 x  4",
+      "colour_code": 14,
+      "colour_name": "Yellow",
+      "quantity": 3
+    },
+    {
+      "part": "3020",
+      "description": "Plate  2 x  4",
+      "colour_code": 72,
+      "colour_name": "Dark_Bluish_Grey",
+      "quantity": 3
+    },
+    {
+      "part": "3030",
+      "description": "Plate  4 x 10",
+      "colour_code": 14,
+      "colour_name": "Yellow",
+      "quantity": 1
+    },
+    {
+      "part": "3031",
+      "description": "Plate  4 x  4",
+      "colour_code": 14,
+      "colour_name": "Yellow",
+      "quantity": 1
+    },
+    {
+      "part": "3031",
+      "description": "Plate  4 x  4",
+      "colour_code": 71,
+      "colour_name": "Light_Bluish_Grey",
+      "quantity": 1
+    },
+    {
+      "part": "30518",
+      "description": "Support  2 x 16 x  2 Girder Triangular",
+      "colour_code": 14,
+      "colour_name": "Yellow",
+      "quantity": 3
+    },
+    {
+      "part": "3062b",
+      "description": "Brick  1 x  1 Round with Hollow Stud",
+      "colour_code": 36,
+      "colour_name": "Trans_Red",
+      "quantity": 2
+    },
+    {
+      "part": "30646",
+      "description": "Support  2 x  2 x  8 Girder",
+      "colour_code": 14,
+      "colour_name": "Yellow",
+      "quantity": 3
+    },
+    {
+      "part": "3068b",
+      "description": "Tile  2 x  2 with Groove",
+      "colour_code": 14,
+      "colour_name": "Yellow",
+      "quantity": 4
+    },
+    {
+      "part": "3069b",
+      "description": "Tile  1 x  2 with Groove",
+      "colour_code": 0,
+      "colour_name": "Black",
+      "quantity": 2
+    },
+    {
+      "part": "3403",
+      "description": "Turntable  4 x  4 Base",
+      "colour_code": 72,
+      "colour_name": "Dark_Bluish_Grey",
+      "quantity": 1
+    },
+    {
+      "part": "3404",
+      "description": "Turntable  4 x  4 Top",
+      "colour_code": 72,
+      "colour_name": "Dark_Bluish_Grey",
+      "quantity": 1
+    },
+    {
+      "part": "41539",
+      "description": "Plate  8 x  8",
+      "colour_code": 72,
+      "colour_name": "Dark_Bluish_Grey",
+      "quantity": 1
+    },
+    {
+      "part": "4863",
+      "description": "Window  1 x  4 x  2 Plane",
+      "colour_code": 15,
+      "colour_name": "White",
+      "quantity": 1
+    },
+    {
+      "part": "70644",
+      "description": "Technic Hook Large Metallic",
+      "colour_code": 71,
+      "colour_name": "Light_Bluish_Grey",
+      "quantity": 1
+    },
+    {
+      "part": "75924",
+      "description": "String Braided 21L with End Studs (Complete)",
+      "colour_code": 0,
+      "colour_name": "Black",
+      "quantity": 2
+    },
+    {
+      "part": "87079",
+      "description": "Tile  2 x  4 with Groove",
+      "colour_code": 15,
+      "colour_name": "White",
+      "quantity": 1
+    },
+    {
+      "part": "87079",
+      "description": "Tile  2 x  4 with Groove",
+      "colour_code": 72,
+      "colour_name": "Dark_Bluish_Grey",
+      "quantity": 1
+    }
+  ],
+  "physical_placements": 44
+}
