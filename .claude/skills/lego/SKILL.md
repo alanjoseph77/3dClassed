@@ -70,6 +70,16 @@ python .claude/skills/lego/scripts/mpd_to_html.py output/MODEL-review/model.mpd 
 - For moving parts pass `--plan PLAN.json --groups groups.json` (`{"slew": ["tt-top", "jib-*"]}`); each group is exposed as `window.MODEL.groups[name]` for custom sliders. `lego-crane/tower-crane.html` is a customised version with slew/trolley/hook sliders (template in `lego-crane/tools/crane-viewer-template.html`).
 - Verify with Playwright (`chromium.launch({args:['--use-gl=swiftshader','--enable-unsafe-swiftshader']})`), desktop and 390px wide, no console errors.
 
-## 6. Hand over
+## 6. STL for 3D printing (when asked)
+
+```sh
+python .claude/skills/lego/scripts/mpd_to_stl.py output/MODEL-review/model.mpd OUT/stl          # display STL + parts/*.stl + report.json, Z up, 1 LDU = 0.4 mm
+pip install trimesh scipy scikit-image
+python .claude/skills/lego/scripts/make_watertight.py OUT/stl/MODEL-display.stl OUT/stl/MODEL-display-50pct-watertight.stl --scale 0.5 --pitch 0.3
+```
+- Raw LDraw meshes are not watertight (T-junctions); `make_watertight.py` voxelises and remeshes into a guaranteed-closed solid. Don't decimate afterwards; it breaks watertightness. Use a larger `--pitch` for a smaller file.
+- Pick a scale that fits a ~220 mm bed. Render a preview (matplotlib) and look at it. Write `stl/README.md` with orientation, supports and fragile-feature tips (see `lego-crane/stl/README.md`).
+
+## 7. Hand over
 
 Put a folder in the repo: `MODEL.mpd`, `MODEL.html`, `MODEL.plan.json`, `tools/` (generator), `PARTS.md` (from `bom.json`), `validation.json`, `previews/`, `README.md`. Report part count, checks, and limitations honestly (checks ≠ proof it is physically buildable; ldraw-nova is AGPL-3.0).

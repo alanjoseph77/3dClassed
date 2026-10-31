@@ -1,0 +1,213 @@
+{
+ "scale": "1 LDU = 0.4 mm (real LEGO size)",
+ "parts": {
+  "3001": {
+   "description": "Brick  2 x  4",
+   "quantity": 6,
+   "triangles": 700,
+   "size_mm": [
+    32.0,
+    16.0,
+    11.2
+   ],
+   "open_edges": 224
+  },
+  "3003": {
+   "description": "Brick  2 x  2",
+   "quantity": 4,
+   "triangles": 316,
+   "size_mm": [
+    16.0,
+    16.0,
+    11.2
+   ],
+   "open_edges": 96
+  },
+  "3010": {
+   "description": "Brick  1 x  4",
+   "quantity": 2,
+   "triangles": 364,
+   "size_mm": [
+    32.0,
+    8.0,
+    11.2
+   ],
+   "open_edges": 112
+  },
+  "3020": {
+   "description": "Plate  2 x  4",
+   "quantity": 6,
+   "triangles": 700,
+   "size_mm": [
+    32.0,
+    16.0,
+    4.8
+   ],
+   "open_edges": 224
+  },
+  "3030": {
+   "description": "Plate  4 x 10",
+   "quantity": 1,
+   "triangles": 4540,
+   "size_mm": [
+    80.0,
+    32.0,
+    4.8
+   ],
+   "open_edges": 1504
+  },
+  "3031": {
+   "description": "Plate  4 x  4",
+   "quantity": 2,
+   "triangles": 1660,
+   "size_mm": [
+    32.0,
+    32.0,
+    4.8
+   ],
+   "open_edges": 544
+  },
+  "30518": {
+   "description": "Support  2 x 16 x  2 Girder Triangular",
+   "quantity": 3,
+   "triangles": 4598,
+   "size_mm": [
+    128.0,
+    16.0,
+    19.6
+   ],
+   "open_edges": 1606
+  },
+  "3062b": {
+   "description": "Brick  1 x  1 Round with Hollow Stud",
+   "quantity": 2,
+   "triangles": 384,
+   "size_mm": [
+    8.0,
+    8.0,
+    11.2
+   ],
+   "open_edges": 0
+  },
+  "30646": {
+   "description": "Support  2 x  2 x  8 Girder",
+   "quantity": 3,
+   "triangles": 2918,
+   "size_mm": [
+    16.0,
+    16.0,
+    83.2
+   ],
+   "open_edges": 370
+  },
+  "3068b": {
+   "description": "Tile  2 x  2 with Groove",
+   "quantity": 4,
+   "triangles": 140,
+   "size_mm": [
+    16.0,
+    16.0,
+    3.2
+   ],
+   "open_edges": 32
+  },
+  "3069b": {
+   "description": "Tile  1 x  2 with Groove",
+   "quantity": 2,
+   "triangles": 44,
+   "size_mm": [
+    16.0,
+    8.0,
+    3.2
+   ],
+   "open_edges": 0
+  },
+  "3403": {
+   "description": "Turntable  4 x  4 Base",
+   "quantity": 1,
+   "triangles": 1432,
+   "size_mm": [
+    32.0,
+    32.0,
+    8.0
+   ],
+   "open_edges": 376
+  },
+  "3404": {
+   "description": "Turntable  4 x  4 Top",
+   "quantity": 1,
+   "triangles": 1304,
+   "size_mm": [
+    32.0,
+    32.0,
+    8.8
+   ],
+   "open_edges": 264
+  },
+  "41539": {
+   "description": "Plate  8 x  8",
+   "quantity": 1,
+   "triangles": 7804,
+   "size_mm": [
+    64.0,
+    64.0,
+    4.8
+   ],
+   "open_edges": 2592
+  },
+  "4863": {
+   "description": "Window  1 x  4 x  2 Plane",
+   "quantity": 1,
+   "triangles": 564,
+   "size_mm": [
+    32.0,
+    8.0,
+    20.8
+   ],
+   "open_edges": 192
+  },
+  "70644": {
+   "description": "Technic Hook Large Metallic",
+   "quantity": 1,
+   "triangles": 1340,
+   "size_mm": [
+    30.4,
+    8.0,
+    35.5
+   ],
+   "open_edges": 256
+  },
+  "75924": {
+   "description": "String Braided 21L with End Studs (Complete)",
+   "quantity": 2,
+   "triangles": 3488,
+   "size_mm": [
+    166.4,
+    6.4,
+    4.8
+   ],
+   "open_edges": 256
+  },
+  "87079": {
+   "description": "Tile  2 x  4 with Groove",
+   "quantity": 2,
+   "triangles": 332,
+   "size_mm": [
+    32.0,
+    16.0,
+    3.2
+   ],
+   "open_edges": 96
+  }
+ },
+ "display": {
+  "file": "tower-crane-display.stl",
+  "triangles": 62300,
+  "size_mm": [
+   432.0,
+   64.0,
+   292.8
+  ],
+  "left_out": []
+ }
+}
