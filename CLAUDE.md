@@ -12,6 +12,7 @@ A collection of **single-file web projects, 3D builds and short films made in co
 | `portfolio/` | Freelancer portfolio: lamp-cord theme switch, doors that open into work pages. Edit its `CONFIG` block |
 | `lego-crane/`, `lego-car/` | LEGO models (LDraw `.mpd`) with offline 3D HTML viewers, parts lists, previews; `lego-crane/stl/` has 3D-print files |
 | `brick-builder/` | Type-to-build 3D brick models (15 object generators in `src/app.js`; `node build.mjs` bundles one HTML file) |
+| `showup-site/` | One-page sales website for an automation service (reminders / no-show reduction). `CONFIG` block holds contact, prices, payment links; no fake testimonials |
 | `srm-motor/` | Interactive isometric figure: switched reluctance motor (built with `/anatomy`) |
 | `last-lighthouse-keeper/` | 41 s vertical paper-cut short film for YouTube (built with `/lemo-opuscar`) |
 | `local-ai/` | **Local Coder**: chat app for the owner's PC that runs a free model (Ollama) and uses this repo's skills |

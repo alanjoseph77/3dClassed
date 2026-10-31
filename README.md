@@ -12,6 +12,7 @@ Single-file web projects and 3D builds. Every page is one self-contained HTML fi
 | [`local-ai/`](local-ai/) | **Local Coder**: a chat app for your own PC that runs a free coding model (Ollama) and uses this repo's skills automatically. | `node local-ai/server.mjs` |
 | [`brick-builder/`](brick-builder/) | **Brick Builder**: type what to build (15 objects, any colour, sizes) and watch it assemble brick by brick in 3D. Offline, one HTML file. | `brick-builder/brick-builder.html` |
 | [`last-lighthouse-keeper/`](last-lighthouse-keeper/) | **The Last Lighthouse Keeper**: 41 s vertical paper-cut short film (YouTube Shorts), made with `/lemo-opuscar`. | `last-lighthouse-keeper/last-lighthouse-keeper.mp4` |
+| [`showup-site/`](showup-site/) | **ShowUp**: a one-page website that sells an appointment-reminder and follow-up automation service (savings calculator, plans, order form). Edit its `CONFIG` block for your WhatsApp, email, prices and payment links. | `showup-site/index.html` |
 
 `index.html` at the root links to every project.
 

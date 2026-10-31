@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShowUp: fewer no-shows, more bookings</title>
+<meta name="description" content="Automatic appointment reminders, enquiry follow-ups and review requests for clinics, salons, tuition centres and service businesses.">
+<style>
+:root{--bg:#f7f6f2;--card:#fff;--ink:#16181d;--mute:#5d6572;--line:#e3e1da;--acc:#0b7a5a;--acc2:#0e9d74;--accInk:#fff;--warn:#b54708;--soft:#e7f4ee}
+@media (prefers-color-scheme:dark){:root{--bg:#101315;--card:#171b1e;--ink:#eef1f3;--mute:#9aa4ad;--line:#2a3036;--acc:#2fc796;--acc2:#52dcae;--accInk:#06271c;--warn:#f0a060;--soft:#142a22}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:inherit}.wrap{width:min(1080px,100% - 32px);margin:auto}
+header.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+.logo{font-weight:800;font-size:19px;letter-spacing:-.02em;text-decoration:none}.logo b{color:var(--acc)}
+.nav nav{display:flex;gap:18px;align-items:center;font-size:14px}.nav nav a{text-decoration:none;color:var(--mute)}.nav nav a:hover{color:var(--ink)}
+.btn{display:inline-block;border:0;border-radius:10px;padding:12px 20px;font:700 15px system-ui;cursor:pointer;text-decoration:none;background:var(--acc);color:var(--accInk);transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}.btn.sm{padding:8px 14px;font-size:14px}
+.pilot{background:var(--soft);color:var(--acc);text-align:center;font-weight:600;font-size:14px;padding:8px 12px}
+.hero{padding:64px 0 40px;display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center}
+h1{font-size:clamp(34px,5.4vw,56px);line-height:1.05;letter-spacing:-.035em;margin:0 0 16px}h1 em{font-style:normal;color:var(--acc)}
+.lead{font-size:19px;color:var(--mute);margin:0 0 24px;max-width:34em}.cta{display:flex;gap:10px;flex-wrap:wrap}
+.chat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 18px 40px rgba(0,0,0,.08)}
+.chat h4{margin:0 0 10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.msg{max-width:88%;padding:9px 12px;border-radius:14px;margin:7px 0;font-size:14px;line-height:1.4}.msg.in{background:var(--soft)}.msg.out{background:var(--acc);color:var(--accInk);margin-left:auto}.msg small{display:block;opacity:.7;font-size:11px;margin-top:2px}
+section{padding:54px 0}section h2{font-size:clamp(26px,3.6vw,36px);letter-spacing:-.025em;margin:0 0 8px}.sub{color:var(--mute);margin:0 0 28px;max-width:40em}
+.grid{display:grid;gap:14px}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}.card h3{margin:0 0 6px;font-size:17px}.card p{margin:0;color:var(--mute);font-size:15px}
+.step{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--acc);color:var(--accInk);font-weight:800;margin-bottom:10px}
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:20px}.field{margin-bottom:16px}.field label{display:flex;justify-content:space-between;font-weight:600;font-size:14px;margin-bottom:6px}.field output{color:var(--acc);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--acc)}
+.result{background:var(--acc);color:var(--accInk);border-radius:16px;padding:24px;display:flex;flex-direction:column;justify-content:center}.result .big{font-size:clamp(34px,5vw,50px);font-weight:800;letter-spacing:-.03em;line-height:1.1}.result p{margin:6px 0 0;opacity:.9;font-size:15px}.result small{opacity:.75;margin-top:14px;font-size:12px}
+.plans{grid-template-columns:repeat(3,1fr);align-items:stretch}.plan{display:flex;flex-direction:column}.plan.pop{border:2px solid var(--acc);position:relative}
+.plan .tag{position:absolute;top:-12px;left:20px;background:var(--acc);color:var(--accInk);font-size:12px;font-weight:800;padding:2px 10px;border-radius:99px}
+.price{font-size:34px;font-weight:800;letter-spacing:-.03em;margin:8px 0 0}.price span{font-size:15px;color:var(--mute);font-weight:500}.setup{color:var(--mute);font-size:14px;margin:0 0 14px}
+.plan ul{list-style:none;padding:0;margin:0 0 18px;flex:1}.plan li{padding:5px 0 5px 24px;position:relative;font-size:15px}.plan li::before{content:"✓";position:absolute;left:0;color:var(--acc);font-weight:800}
+details{border-bottom:1px solid var(--line);padding:14px 0}summary{cursor:pointer;font-weight:600}details p{color:var(--mute);margin:8px 0 0}
+form.order{display:grid;grid-template-columns:1fr 1fr;gap:14px}form.order .full{grid-column:1/-1}
+.order label{display:block;font-weight:600;font-size:14px;margin-bottom:5px}.order input,.order select,.order textarea{width:100%;font:inherit;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.order input:focus,.order select:focus,.order textarea:focus{outline:2px solid var(--acc);outline-offset:1px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}.note{font-size:13px;color:var(--mute)}.warn{color:var(--warn)}
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--mute);font-size:14px}footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media(max-width:820px){.hero,.calc{grid-template-columns:1fr}.g3,.g4,.plans{grid-template-columns:1fr}.nav nav a:not(.btn){display:none}form.order{grid-template-columns:1fr}.hero{padding-top:36px}}
+</style>
+</head>
+<body>
+<div class="pilot" id="pilotBar" hidden></div>
+<header class="nav"><div class="wrap">
+  <a class="logo" href="#top" id="brandName">Show<b>Up</b></a>
+  <nav><a href="#how">How it works</a><a href="#savings">Savings</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a class="btn sm" href="#order">Get started</a></nav>
+</div></header>
+
+<main id="top">
+<div class="wrap hero">
+  <div>
+    <h1>Fewer no-shows.<br><em>More paid appointments.</em></h1>
+    <p class="lead">ShowUp sends your customers friendly reminders, follows up every enquiry, and asks happy customers for a review. All automatically, on WhatsApp, SMS or email.</p>
+    <div class="cta"><a class="btn" href="#order">Start my set-up</a><a class="btn ghost" href="#savings">See what I'd save</a></div>
+    <p class="note" style="margin-top:14px">For clinics, salons, dentists, tuition and coaching centres, repair shops and other appointment-based businesses.</p>
+  </div>
+  <div class="chat" aria-label="Example reminder conversation">
+    <h4>What your customer sees</h4>
+    <div class="msg out">Hi Priya, a reminder from <span class="bizEx">Bright Smile Dental</span>: your appointment is tomorrow at 4:30 PM. Reply 1 to confirm, 2 to reschedule.<small>Sent automatically · 24 h before</small></div>
+    <div class="msg in">1<small>Priya</small></div>
+    <div class="msg out">Thank you, see you tomorrow! 🦷<small>Confirmed · the schedule updates itself</small></div>
+    <div class="msg out" style="margin-top:14px">Hope your visit went well! Would you rate us? It takes 10 seconds: <u>link</u><small>After the visit</small></div>
+  </div>
+</div>
+
+<section id="how" style="padding-top:20px"><div class="wrap">
+  <h2>How it works</h2><p class="sub">We set it up once, then it runs by itself. You keep working while it fills your diary.</p>
+  <div class="grid g4">
+    <div class="card"><div class="step">1</div><h3>You tell us your flow</h3><p>Services, opening hours, message wording and language. A 20-minute chat.</p></div>
+    <div class="card"><div class="step">2</div><h3>We connect it</h3><p>To your booking sheet, calendar or form, and your WhatsApp or SMS number.</p></div>
+    <div class="card"><div class="step">3</div><h3>Customers get messages</h3><p>Confirmation, reminders, a quick confirm or reschedule, a thank-you and a review request.</p></div>
+    <div class="card"><div class="step">4</div><h3>You see the result</h3><p>A simple monthly report: bookings, confirmations, no-shows and reviews.</p></div>
+  </div>
+</div></section>
+
+<section id="savings" style="background:var(--card);border-block:1px solid var(--line)"><div class="wrap">
+  <h2>What no-shows cost you</h2><p class="sub">Move the sliders to match your business. Every number can be changed, and the calculator is an estimate, not a promise.</p>
+  <div class="calc">
+    <div>
+      <div class="field"><label for="appts">Appointments per month <output id="apptsO"></output></label><input id="appts" type="range" min="20" max="1000" step="10" value="200"></div>
+      <div class="field"><label for="miss">Customers who don't show up <output id="missO"></output></label><input id="miss" type="range" min="2" max="40" step="1" value="15"></div>
+      <div class="field"><label for="val">Average value of one visit <output id="valO"></output></label><input id="val" type="range" min="100" max="10000" step="100" value="800"></div>
+      <div class="field"><label for="cut">No-shows we assume are avoided <output id="cutO"></output></label><input id="cut" type="range" min="10" max="70" step="5" value="40"></div>
+      <p class="note">The "avoided" share is an assumption you can lower. Results vary by business, so we start with a short trial and measure.</p>
+    </div>
+    <div class="result" aria-live="polite">
+      <span>You lose about</span><div class="big" id="lost"></div><p>every month to no-shows (<b id="lostN"></b> missed visits).</p>
+      <span style="margin-top:18px">You could win back</span><div class="big" id="back"></div><p>every month, about <b id="backYr"></b> a year.</p>
+      <small id="payback"></small>
+    </div>
+  </div>
+</div></section>
+
+<section id="pricing"><div class="wrap">
+  <h2>Simple pricing</h2><p class="sub">One set-up fee, then a monthly fee for running, fixing and improving it. Message fees from WhatsApp or SMS providers are separate and billed at cost.</p>
+  <div class="grid plans" id="plans"></div>
+</div></section>
+
+<section id="order" style="background:var(--card);border-block:1px solid var(--line)"><div class="wrap" style="max-width:760px">
+  <h2>Get started</h2><p class="sub">Tell us about your business. You'll get a reply the same day, and nothing is charged until you pay the set-up link.</p>
+  <form class="order" id="orderForm" novalidate>
+    <div><label for="name">Your name</label><input id="name" required autocomplete="name"></div>
+    <div><label for="biz">Business name</label><input id="biz" required autocomplete="organization"></div>
+    <div><label for="phone">WhatsApp / phone</label><input id="phone" required inputmode="tel" autocomplete="tel"></div>
+    <div><label for="type">Type of business</label><select id="type"><option>Clinic or dentist</option><option>Salon or spa</option><option>Gym or fitness</option><option>Tuition or coaching</option><option>Repair or service shop</option><option>Other</option></select></div>
+    <div><label for="plan">Plan</label><select id="plan"></select></div>
+    <div><label for="size">Appointments per month</label><select id="size"><option>Under 100</option><option selected>100–300</option><option>300–1000</option><option>Over 1000</option></select></div>
+    <div class="full"><label for="msg">Anything we should know? (optional)</label><textarea id="msg" rows="3" placeholder="How do customers book today? Which language do they speak?"></textarea></div>
+    <div class="full actions" id="orderActions"></div>
+    <p class="full note" id="orderNote"></p>
+  </form>
+</div></section>
+
+<section id="faq"><div class="wrap" style="max-width:760px">
+  <h2>Questions</h2>
+  <details><summary>Do my customers need to install anything?</summary><p>No. They get a normal WhatsApp message, SMS or email and reply to it.</p></details>
+  <details><summary>Can I keep my own number and booking system?</summary><p>Yes. We connect to what you already use, such as Google Calendar, a sheet or a booking form. If you have nothing yet, we set up a simple form for you.</p></details>
+  <details><summary>Is it allowed to message my customers?</summary><p>Reminders and follow-ups go only to people who booked or contacted you, with an easy way to opt out. We use approved message templates where WhatsApp requires them.</p></details>
+  <details><summary>What happens to my customer data?</summary><p>We keep only what's needed to send the messages (name, phone, appointment time), and we never sell or share it. You can ask us to delete it at any time.</p></details>
+  <details><summary>How fast can it start?</summary><p>Usually within 3 to 5 working days after you send the details and pay the set-up fee.</p></details>
+  <details><summary>Can I cancel?</summary><p>Yes. Monthly plans can be cancelled at any time, effective at the end of the paid month. The set-up fee is for the work done and isn't refundable once the set-up starts.</p></details>
+</div></section>
+</main>
+
+<footer><div class="wrap"><span id="copy"></span><span id="contact"></span></div></footer>
+
+<script>
+/* ================= EDIT THIS: your details ================= */
+const CONFIG = {
+  brand: "ShowUp",
+  currency: "₹",
+  whatsapp: "",            // your WhatsApp number with country code, digits only, e.g. "919876543210"
+  email: "",               // your email, e.g. "hello@yourdomain.com"
+  pilotOffer: "Launch offer: the first 5 businesses get the first 14 days free.",   // leave "" to hide the bar
+  // paste a payment link for each plan (Razorpay, Stripe or PayPal payment links). Empty = the order is sent by WhatsApp/email instead.
+  plans: [
+    { id: "starter", name: "Starter", setup: 4999,  monthly: 1499, blurb: "For one location getting started.",
+      items: ["Booking confirmation message", "Reminders 24 h and 2 h before", "Confirm / reschedule by reply", "Thank-you message", "Review request after the visit", "Set up in 5 working days"], payLink: "" },
+    { id: "growth",  name: "Growth",  setup: 7999,  monthly: 2999, blurb: "Most chosen. Reminders plus enquiry follow-up.", pop: true,
+      items: ["Everything in Starter", "Missed-enquiry follow-ups (day 1 and day 3)", "Missed-call text-back", "'Time for your next visit?' messages", "Monthly results report", "Changes to wording any time"], payLink: "" },
+    { id: "pro",     name: "Pro",     setup: 14999, monthly: 5999, blurb: "Several staff or locations, custom flows.",
+      items: ["Everything in Growth", "Up to 3 locations or calendars", "Custom flows and message languages", "Staff alerts for no replies", "Priority support", "Quarterly review call"], payLink: "" },
+  ],
+};
+/* =========================================================== */
+const $ = id => document.getElementById(id);
+const fmt = n => CONFIG.currency + Math.round(n).toLocaleString("en-IN");
+document.querySelectorAll(".bizEx").forEach(e => e.textContent = "Bright Smile Dental");
+document.title = CONFIG.brand + ": fewer no-shows, more bookings";
+$("brandName").innerHTML = CONFIG.brand.replace(/Up$/, "<b>Up</b>");
+if (CONFIG.pilotOffer){ $("pilotBar").textContent = CONFIG.pilotOffer; $("pilotBar").hidden = false; }
+$("copy").textContent = "© " + new Date().getFullYear() + " " + CONFIG.brand;
+$("contact").textContent = [CONFIG.email, CONFIG.whatsapp && "WhatsApp +" + CONFIG.whatsapp].filter(Boolean).join(" · ");
+
+/* savings calculator */
+function calc(){
+  const a = +$("appts").value, m = +$("miss").value, v = +$("val").value, c = +$("cut").value;
+  $("apptsO").textContent = a; $("missO").textContent = m + "%"; $("valO").textContent = fmt(v); $("cutO").textContent = c + "%";
+  const lostN = a * m / 100, lost = lostN * v, back = lost * c / 100;
+  $("lost").textContent = fmt(lost); $("lostN").textContent = Math.round(lostN); $("back").textContent = fmt(back); $("backYr").textContent = fmt(back * 12);
+  const growth = CONFIG.plans.find(p => p.pop) || CONFIG.plans[0];
+  $("payback").textContent = back > growth.monthly ? "The " + growth.name + " plan costs " + fmt(growth.monthly) + " a month: about " + (back / growth.monthly).toFixed(1) + "× covered by what you could win back (estimate)." : "At these numbers the plan wouldn't pay for itself yet. Try changing the sliders to match your real figures.";
+}
+["appts", "miss", "val", "cut"].forEach(id => $(id).addEventListener("input", calc)); calc();
+
+/* plans */
+$("plans").innerHTML = CONFIG.plans.map(p => `<div class="card plan ${p.pop ? "pop" : ""}">${p.pop ? '<span class="tag">Most chosen</span>' : ""}
+  <h3>${p.name}</h3><p>${p.blurb}</p><div class="price">${fmt(p.monthly)}<span> / month</span></div><p class="setup">+ ${fmt(p.setup)} one-time set-up</p>
+  <ul>${p.items.map(i => "<li>" + i + "</li>").join("")}</ul><a class="btn ${p.pop ? "" : "ghost"}" href="#order" data-plan="${p.id}">Choose ${p.name}</a></div>`).join("");
+$("plan").innerHTML = CONFIG.plans.map(p => `<option value="${p.id}">${p.name} (${fmt(p.monthly)}/month + ${fmt(p.setup)} set-up)</option>`).join("");
+document.querySelectorAll("[data-plan]").forEach(a => a.addEventListener("click", () => { $("plan").value = a.dataset.plan; refreshActions(); }));
+$("plan").value = (CONFIG.plans.find(p => p.pop) || CONFIG.plans[0]).id;
+
+/* order: build the message, send by WhatsApp or email, or pay the set-up link */
+const plan = () => CONFIG.plans.find(p => p.id === $("plan").value);
+function text(){
+  const p = plan();
+  return ["New order from the website", "Plan: " + p.name + " (" + fmt(p.monthly) + "/month + " + fmt(p.setup) + " set-up)", "Name: " + $("name").value, "Business: " + $("biz").value + " (" + $("type").value + ")", "Phone: " + $("phone").value, "Appointments/month: " + $("size").value, $("msg").value && "Notes: " + $("msg").value].filter(Boolean).join("\n");
+}
+function valid(){ const bad = ["name", "biz", "phone"].filter(id => !$(id).value.trim()); ["name", "biz", "phone"].forEach(id => $(id).style.borderColor = bad.includes(id) ? "var(--warn)" : ""); if (bad.length) $(bad[0]).focus(); return !bad.length; }
+function refreshActions(){
+  const p = plan(), box = $("orderActions"); box.innerHTML = "";
+  const add = (label, cls, fn) => { const b = document.createElement("button"); b.type = "button"; b.className = "btn " + cls; b.textContent = label; b.onclick = fn; box.appendChild(b); };
+  if (p.payLink) add("Pay the " + fmt(p.setup) + " set-up fee", "", () => { if (valid()) window.open(p.payLink, "_blank", "noopener"); });
+  if (CONFIG.whatsapp) add(p.payLink ? "Send details on WhatsApp" : "Send my order on WhatsApp", p.payLink ? "ghost" : "", () => { if (valid()) window.open("https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(text()), "_blank", "noopener"); });
+  if (CONFIG.email) add("Send by email", "ghost", () => { if (valid()) location.href = "mailto:" + CONFIG.email + "?subject=" + encodeURIComponent("New order: " + p.name) + "&body=" + encodeURIComponent(text()); });
+  add("Copy my order", "ghost", () => { if (valid()) navigator.clipboard.writeText(text()).then(() => { $("orderNote").textContent = "Copied. Paste it into WhatsApp or an email."; }); });
+  $("orderNote").innerHTML = (CONFIG.whatsapp || CONFIG.email || p.payLink) ? "We reply the same day. Nothing is charged until you pay the set-up link." : '<span class="warn">Owner: add your WhatsApp number, email and payment links in the CONFIG block at the top of the script so customers can order and pay here.</span>';
+}
+$("plan").addEventListener("change", refreshActions); refreshActions();
+$("orderForm").addEventListener("submit", e => e.preventDefault());
+</script>
+</body>
+</html>
