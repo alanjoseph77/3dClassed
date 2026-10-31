@@ -15,3 +15,7 @@ Single-file web projects and 3D builds. Every page is one self-contained HTML fi
 
 Type **`/lego <your idea>`** (e.g. `/lego a red fire truck`) in Claude Code on this repo. [`.claude/skills/lego/`](.claude/skills/lego/SKILL.md) captures the LEGO workflow so a Claude Code session on this repo can build another model from a description:
 setup scripts (LDraw library, LeoCAD, ldraw-nova), design rules, check/render steps, and `mpd_to_html.py`, which converts any LDraw model into a single offline HTML viewer.
+
+## Other skills
+
+- [`.claude/skills/lemo-opuscar/`](.claude/skills/lemo-opuscar/SOURCE.md): **/lemo-opuscar**, short films made entirely in code in 66 styles (watercolor, ukiyo-e, brick toy, pixel RPG...), with narration and music. From [lemomo-ai/lemo-opuscar](https://github.com/lemomo-ai/lemo-opuscar) (MIT).
