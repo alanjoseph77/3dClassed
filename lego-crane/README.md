@@ -4,6 +4,7 @@ An original flat-top construction tower crane, generated with [ldraw-nova](https
 
 ![overview](previews/overview.png)
 
+- `tower-crane.html` — interactive 3D viewer (single file, works offline): orbit, slew, move the trolley, raise/lower the hook.
 - `tower-crane.mpd` — the LDraw model. Open it in LeoCAD, LDCad, BrickLink Studio or LDView.
 - `tower_crane_gen.py` → `tower-crane.plan.json` — editable source (regenerate with `python tower_crane_gen.py`).
 - `PARTS.md` / `bom.json` — parts list. `validation.json` — geometry checks.
