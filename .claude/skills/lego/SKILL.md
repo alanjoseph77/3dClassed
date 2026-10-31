@@ -1,16 +1,22 @@
 ---
-name: lego-builder
-description: Design a LEGO model from a description (e.g. "build a lego crane", "make a LEGO house/car/ship") with the ldraw-nova toolkit, check it, render previews, and deliver it as an LDraw .mpd plus a single-file offline interactive 3D HTML viewer. Use whenever the user asks to build, design or generate a LEGO/LDraw model or wants one shown as HTML.
+name: lego
+description: Design a LEGO model from a description (e.g. "/lego a fire truck", "build a lego crane", "make a LEGO house") with the ldraw-nova toolkit, check it, render previews, and deliver an LDraw .mpd plus a single-file offline interactive 3D HTML viewer in its own repo folder. Use whenever the user asks to build, design or generate a LEGO/LDraw model or wants one shown as HTML.
+argument-hint: "<model idea, e.g. a red fire truck with a ladder>"
 ---
 
 # LEGO builder (ldraw-nova → .mpd → single HTML)
+
+**Model requested:** $ARGUMENTS
+
+If no model was given, ask what to build (subject, rough size, colours). Otherwise pick sensible defaults, state them in one line, and build it end to end; don't stop at a plan.
+Deliverable: a new top-level folder named after the model (e.g. `fire-truck/`), the same layout as `lego-crane/`, a card for it in the root `index.html`, a row in the root `README.md`, then commit and push, and send the user the HTML file.
 
 Worked example of everything below: `lego-crane/` in this repo (tower crane, 44 parts).
 
 ## 1. Set up (once per container)
 
 ```sh
-sh .claude/skills/lego-builder/scripts/setup_env.sh "$SCRATCH"   # any scratch dir
+sh .claude/skills/lego/scripts/setup_env.sh "$SCRATCH"   # any scratch dir
 export LDRAW_DIR=/usr/share/ldraw
 cd "$SCRATCH/ldraw-nova"
 ```
@@ -49,14 +55,14 @@ Read `geometry.confirmed_components`: indices are placements in plan order. Ever
 
 ```sh
 ./ldraw-agent review output/MODEL.plan.json --force          # builds output/MODEL-review/model.mpd + bom.json
-sh .claude/skills/lego-builder/scripts/render_previews.sh "$PWD" output/MODEL-review/model.mpd output/previews
+sh .claude/skills/lego/scripts/render_previews.sh "$PWD" output/MODEL-review/model.mpd output/previews
 ```
 Open the PNGs (Read tool) and actually review them: silhouette, proportions, colours, floating bits. Iterate.
 
 ## 5. Deliver as HTML
 
 ```sh
-python .claude/skills/lego-builder/scripts/mpd_to_html.py output/MODEL-review/model.mpd OUT.html \
+python .claude/skills/lego/scripts/mpd_to_html.py output/MODEL-review/model.mpd OUT.html \
   --title "LEGO Tower Crane" --subtitle "44 parts"
 ```
 - One file, works offline (three.js embedded from npm; CDNs may be blocked in the sandbox).

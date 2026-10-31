@@ -12,5 +12,5 @@ Single-file web projects and 3D builds. Every page is one self-contained HTML fi
 
 ## Reusable skill
 
-[`.claude/skills/lego-builder/`](.claude/skills/lego-builder/SKILL.md) captures the LEGO workflow so a Claude Code session on this repo can build another model from a description:
+Type **`/lego <your idea>`** (e.g. `/lego a red fire truck`) in Claude Code on this repo. [`.claude/skills/lego/`](.claude/skills/lego/SKILL.md) captures the LEGO workflow so a Claude Code session on this repo can build another model from a description:
 setup scripts (LDraw library, LeoCAD, ldraw-nova), design rules, check/render steps, and `mpd_to_html.py`, which converts any LDraw model into a single offline HTML viewer.
