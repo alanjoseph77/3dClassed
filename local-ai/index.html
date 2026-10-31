@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local Coder</title>
+<style>
+:root { --bg: #f6f5f2; --panel: #ffffff; --ink: #1d1d1b; --mute: #6b6a66; --line: #e3e1dc; --acc: #c96442; --code: #f0eee9; --ok: #2e7d4f; --warn: #b54708; }
+@media (prefers-color-scheme: dark) { :root { --bg: #1b1a18; --panel: #232220; --ink: #ecebe7; --mute: #9c9a94; --line: #34322f; --acc: #e08060; --code: #2b2a27; --ok: #6ccf98; --warn: #f0a060; } }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.app { display: grid; grid-template-columns: 260px 1fr; height: 100%; }
+aside { border-right: 1px solid var(--line); background: var(--panel); display: flex; flex-direction: column; min-height: 0; }
+aside h1 { font-size: 15px; margin: 0; padding: 16px; border-bottom: 1px solid var(--line); }
+aside h1 span { color: var(--acc); }
+.side { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.side label { display: block; font-size: 12px; color: var(--mute); margin-bottom: 4px; }
+select, input, textarea, button { font: inherit; color: inherit; }
+select { width: 100%; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+.status { font-size: 12px; margin-top: 6px; }
+.files { flex: 1; overflow: auto; padding: 8px 8px 16px; font-size: 13px; }
+.files .crumb { color: var(--mute); padding: 4px 8px; word-break: break-all; }
+.files button { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 3px 8px; border-radius: 6px; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.files button:hover { background: var(--code); }
+main { display: flex; flex-direction: column; min-height: 0; }
+#log { flex: 1; overflow: auto; padding: 24px max(16px, calc(50% - 400px)); }
+.msg { margin: 0 0 22px; }
+.msg .who { font-size: 12px; color: var(--mute); margin-bottom: 4px; }
+.msg.user .bubble { background: var(--code); border-radius: 14px; padding: 10px 14px; white-space: pre-wrap; display: inline-block; max-width: 100%; }
+.msg.ai .bubble { white-space: pre-wrap; word-wrap: break-word; }
+.skill[hidden] { display: none; }
+.skill { display: inline-block; font-size: 11px; color: var(--acc); border: 1px solid var(--acc); border-radius: 999px; padding: 0 8px; margin-left: 6px; }
+pre { background: var(--code); border-radius: 10px; padding: 12px; overflow: auto; margin: 8px 0 4px; white-space: pre; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.actions { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+.actions button, .composer button { border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 3px 10px; cursor: pointer; font-size: 12px; }
+.actions button:hover { border-color: var(--acc); }
+.result { font: 12px/1.45 ui-monospace, monospace; background: var(--code); border-left: 3px solid var(--ok); padding: 8px 10px; white-space: pre-wrap; margin-bottom: 10px; border-radius: 4px; }
+.result.bad { border-color: var(--warn); }
+.composer { border-top: 1px solid var(--line); padding: 12px max(16px, calc(50% - 400px)) 16px; background: var(--panel); }
+.attached { font-size: 12px; color: var(--mute); margin-bottom: 6px; display: flex; gap: 6px; flex-wrap: wrap; }
+.attached span { background: var(--code); border-radius: 6px; padding: 1px 8px; cursor: pointer; }
+.row { display: flex; gap: 8px; align-items: flex-end; }
+textarea { flex: 1; min-height: 52px; max-height: 240px; resize: vertical; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
+.composer .send { background: var(--acc); color: #fff; border-color: var(--acc); padding: 10px 18px; font-size: 14px; border-radius: 12px; }
+.empty { color: var(--mute); text-align: center; margin-top: 12vh; }
+.empty b { color: var(--ink); }
+@media (max-width: 760px) { .app { grid-template-columns: 1fr; } aside { display: none; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <h1>Local <span>Coder</span></h1>
+    <div class="side">
+      <label for="model">Model (Ollama)</label>
+      <select id="model"></select>
+      <div class="status" id="status">checking…</div>
+    </div>
+    <div class="side">
+      <label for="skill">Skill</label>
+      <select id="skill"><option value="auto">Auto: pick from my request</option><option value="none">None</option></select>
+    </div>
+    <div class="files" id="files"></div>
+  </aside>
+  <main>
+    <div id="log"><div class="empty" id="empty"><b>Ask for code.</b><br>Your skills are chosen automatically, or start with <code>/skill-name</code>.<br>Click a file on the left to attach it.</div></div>
+    <div class="composer">
+      <div class="attached" id="attached"></div>
+      <div class="row">
+        <textarea id="input" placeholder="e.g. /lego a small red fire truck   ·   make a landing page for my bakery"></textarea>
+        <button class="send" id="send">Send</button>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const TOKEN = '__TOKEN__';   // filled in by server.mjs; every /api call sends it
+const api = (path, opts = {}) => fetch(path, { ...opts, headers: { 'x-token': TOKEN, 'content-type': 'application/json' } });
+const history = []; const attached = new Map(); let busy = false;
+// —— model list and status ——
+api('/api/models').then((r) => r.json()).then((m) => {
+  const names = m.models.length ? m.models : [m.default];
+  $('model').innerHTML = names.map((n) => `<option ${n === m.default ? 'selected' : ''}>${n}</option>`).join('');
+  $('status').innerHTML = m.ok ? `<span style="color:var(--ok)">● Ollama running</span> · ${m.models.length} model(s)` : `<span style="color:var(--warn)">● Ollama not found</span> · start it with <code>ollama serve</code>`;
+});
+api('/api/skills').then((r) => r.json()).then((list) => {
+  for (const s of list) { const o = document.createElement('option'); o.value = s.name; o.textContent = s.name; o.title = s.description; $('skill').append(o); }
+});
+// —— file browser: click a folder to open, a file to attach ——
+function browse(path) {
+  api('/api/files?path=' + encodeURIComponent(path)).then((r) => r.json()).then((d) => {
+    const f = $('files'); f.innerHTML = `<div class="crumb">${d.dir}</div>`;
+    if (d.dir !== '.') { const up = document.createElement('button'); up.textContent = '↑ ..'; up.onclick = () => browse(d.dir.split('/').slice(0, -1).join('/') || '.'); f.append(up); }
+    for (const e of d.entries) {
+      const b = document.createElement('button'); const p = (d.dir === '.' ? '' : d.dir + '/') + e.name;
+      b.textContent = (e.dir ? '▸ ' : '  ') + e.name;
+      b.onclick = () => e.dir ? browse(p) : attach(p); f.append(b);
+    }
+  });
+}
+function attach(p) {
+  api('/api/files?path=' + encodeURIComponent(p)).then((r) => r.json()).then((d) => { if (d.error) return alert(d.error); attached.set(d.path, d.content); drawAttached(); });
+}
+function drawAttached() {
+  $('attached').innerHTML = ''; for (const p of attached.keys()) { const s = document.createElement('span'); s.textContent = '📎 ' + p + '  ×'; s.title = 'remove'; s.onclick = () => { attached.delete(p); drawAttached(); }; $('attached').append(s); }
+}
+browse('.');
+// —— rendering: plain text with fenced code blocks; each block gets Copy / Save / Run ——
+const esc = (s) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+function render(el, text) {
+  el.innerHTML = '';
+  const re = /```([\w+-]*)\n([\s\S]*?)(```|$)/g; let last = 0, m;
+  while ((m = re.exec(text))) {
+    const before = text.slice(last, m.index); el.append(document.createTextNode(before));
+    const file = (before.match(/File:\s*`?([^\s`]+)`?\s*$/i) || [])[1];
+    const pre = document.createElement('pre'); pre.innerHTML = esc(m[2]); el.append(pre);
+    if (m[3]) el.append(actions(m[1], m[2], file));
+    last = re.lastIndex;
+  }
+  el.append(document.createTextNode(text.slice(last)));
+}
+function actions(lang, code, file) {
+  const bar = document.createElement('div'); bar.className = 'actions';
+  const btn = (label, fn) => { const b = document.createElement('button'); b.textContent = label; b.onclick = fn; bar.append(b); };
+  btn('Copy', () => navigator.clipboard.writeText(code));
+  btn(file ? `Save to ${file}` : 'Save to file…', async () => {
+    const path = file || prompt('Save to which file (relative to the repo)?'); if (!path) return;
+    if (!confirm(`Write ${code.length} characters to ${path}? This replaces the file if it exists.`)) return;
+    const r = await (await api('/api/write', { method: 'POST', body: JSON.stringify({ path, content: code, confirmed: true }) })).json();
+    result(bar, r.error ? '✗ ' + r.error : `✓ wrote ${r.wrote} (${r.bytes} bytes)`, !!r.error);
+  });
+  if (/^(sh|bash|shell|console|zsh)$/i.test(lang)) { const n = document.createElement('span'); n.textContent = 'Copy it into your terminal; paste the output back here if something fails.'; n.style.cssText = 'font-size:12px;color:var(--mute);align-self:center'; bar.append(n); }
+  return bar;
+}
+function result(bar, text, bad) { let r = bar.nextSibling; if (!r || !r.classList?.contains('result')) { r = document.createElement('div'); bar.after(r); } r.className = 'result' + (bad ? ' bad' : ''); r.textContent = text; }
+function add(role, text, skill) {
+  $('empty')?.remove();
+  const m = document.createElement('div'); m.className = 'msg ' + role;
+  m.innerHTML = `<div class="who">${role === 'user' ? 'You' : 'Assistant'}<span class="skill" hidden></span></div><div class="bubble"></div>`;
+  $('log').append(m); const b = m.querySelector('.bubble');
+  role === 'user' ? (b.textContent = text) : render(b, text);
+  return m;
+}
+// —— send: attach files as context, stream the answer ——
+async function send() {
+  const text = $('input').value.trim(); if (!text || busy) return; busy = true; $('send').disabled = true;
+  let content = text;
+  if (attached.size) content += '\n\n' + [...attached].map(([p, c]) => `File: ${p}\n\`\`\`\n${c}\n\`\`\``).join('\n\n');
+  add('user', text + (attached.size ? `\n📎 ${[...attached.keys()].join(', ')}` : ''));
+  history.push({ role: 'user', content }); attached.clear(); drawAttached(); $('input').value = '';
+  const m = add('ai', ''); const b = m.querySelector('.bubble'), tag = m.querySelector('.skill');
+  let out = '';
+  try {
+    const r = await api('/api/chat', { method: 'POST', body: JSON.stringify({ messages: history, model: $('model').value, skill: $('skill').value }) });
+    const rd = r.body.getReader(), dec = new TextDecoder(); let buf = '';
+    for (;;) {
+      const { value, done } = await rd.read(); if (done) break; buf += dec.decode(value, { stream: true });
+      let i; while ((i = buf.indexOf('\n')) >= 0) {
+        const line = buf.slice(0, i); buf = buf.slice(i + 1); if (!line.trim()) continue; const j = JSON.parse(line);
+        if ('skill' in j && j.skill) { tag.hidden = false; tag.textContent = 'skill: ' + j.skill; }
+        if (j.error) out += '\n⚠ ' + j.error;
+        if (j.t) out += j.t;
+        render(b, out); $('log').scrollTop = $('log').scrollHeight;
+      }
+    }
+  } catch (e) { out += '\n⚠ ' + e.message; render(b, out); }
+  history.push({ role: 'assistant', content: out }); busy = false; $('send').disabled = false; $('input').focus();
+}
+$('send').onclick = send;
+$('input').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
+</script>
+</body>
+</html>

@@ -9,6 +9,7 @@ Single-file web projects and 3D builds. Every page is one self-contained HTML fi
 | [`lego-crane/`](lego-crane/) | LEGO tower crane (44 real parts) designed with [ldraw-nova](https://github.com/anteloc/ldraw-nova), plus an offline 3D viewer with slew / trolley / hook controls. | `lego-crane/tower-crane.html` |
 | [`lego-car/`](lego-car/) | LEGO sports car: a classic 4-wide Town roadster (40 parts) built with the `/lego` skill, plus an offline 3D viewer with spinning wheels. | `lego-car/sports-car.html` |
 | [`srm-motor/`](srm-motor/) | Interactive isometric figure explaining a switched reluctance motor (6/4, three phases), made with `/anatomy`. | `srm-motor/srm-motor.html` |
+| [`local-ai/`](local-ai/) | **Local Coder**: a chat app for your own PC that runs a free coding model (Ollama) and uses this repo's skills automatically. | `node local-ai/server.mjs` |
 
 `index.html` at the root links to every project.
 
