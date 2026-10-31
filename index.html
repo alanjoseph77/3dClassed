@@ -3,164 +3,33 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Volta — Finally, you can buy a can</title>
+<title>3dClassed</title>
 <style>
-:root{--blue:#1523ff;--navy:#050a3a;--ink:#0b1166;--yellow:#ffc928;--red:#ff2a2a;--paper:#f6f7fb}
+:root{--bg:#f4f3f0;--card:#fff;--ink:#16181b;--mute:#6b7078;--line:#e4e2dd}
+@media (prefers-color-scheme:dark){:root{--bg:#141619;--card:#1d2024;--ink:#eef0f2;--mute:#9aa1aa;--line:#2b2f35}}
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;background:var(--paper);color:var(--ink);overflow-x:hidden}
-h1,h2,h3,.big{font-family:Impact,"Arial Black","Helvetica Neue",sans-serif;font-weight:900;text-transform:uppercase;letter-spacing:-.02em;line-height:.9}
-nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 5vw;color:#fff;mix-blend-mode:difference;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
-nav b{font-family:Impact,sans-serif;font-size:22px;letter-spacing:.02em}
-nav a{color:inherit;text-decoration:none;margin-left:22px}
-section{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
-/* CAN */
-.can{position:absolute;width:var(--w,150px);aspect-ratio:1/2.3;border-radius:12% / 5%;background:
- linear-gradient(90deg,rgba(0,0,0,.35),rgba(255,255,255,.55) 22%,rgba(255,255,255,0) 40%,rgba(0,0,0,.25) 100%),
- linear-gradient(180deg,#c9d0e0 0 9%,#1e35ff 9% 91%,#c9d0e0 91%);
- box-shadow:0 30px 60px rgba(0,10,80,.35);will-change:transform}
-.can::after{content:"VOLTA";position:absolute;inset:38% 0 auto;text-align:center;color:#fff;font:900 calc(var(--w,150px)*.2)/1 Impact,sans-serif;letter-spacing:.02em;text-shadow:0 2px 0 var(--red)}
-.can::before{content:"";position:absolute;left:50%;top:22%;width:42%;aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:var(--yellow);box-shadow:0 0 0 4px #fff3}
-/* HERO */
-#hero{background:var(--blue);color:#fff;flex-direction:column}
-#hero .big{font-size:clamp(90px,24vw,380px);display:flex;gap:.02em;position:relative;z-index:1}
-#hero .big span{display:inline-block;transform:translateY(40px);opacity:0;animation:rise .9s cubic-bezier(.2,.8,.2,1) forwards}
-@keyframes rise{to{transform:none;opacity:1}}
-#hero p{position:absolute;left:5vw;bottom:9vh;max-width:240px;font-weight:700;font-size:14px;line-height:1.4;z-index:2}
-#hero .cta{position:absolute;right:5vw;bottom:9vh;z-index:2}
-.btn{display:inline-block;background:var(--yellow);color:var(--ink);border:0;border-radius:99px;padding:14px 30px;font:800 13px Helvetica,Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:transform .2s,box-shadow .2s}
-.btn:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 10px 24px rgba(0,0,0,.25)}
-#hero .can{--w:min(26vw,240px);left:56%;top:18%;z-index:2}
-/* TRACK / SKY */
-.light{background:#fff}
-.split{width:min(1200px,90vw);display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:4vw}
-.split h2{font-size:clamp(70px,13vw,190px);color:#1a2a9a;text-shadow:0 8px 0 #cdd5ff}
-.split p{margin-top:24px;font-size:14px;color:#6670a8;max-width:300px;line-height:1.5}
-.blob{aspect-ratio:1;border-radius:50% 50% 50% 8%;background:radial-gradient(circle at 30% 30%,#7fa0ff,#1b3df0 55%,#0a1a7a);position:relative;box-shadow:0 40px 80px rgba(20,40,200,.35);overflow:hidden}
-.blob svg{position:absolute;inset:0;width:100%;height:100%}
-#track .can{--w:clamp(70px,9vw,120px);left:44%;top:12%;transform:rotate(14deg)}
-#sky{background:#fff}
-#sky .diver{width:100%;max-width:520px;margin:auto;display:block;filter:drop-shadow(0 30px 30px rgba(10,30,150,.3))}
-#sky::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:70px;background:var(--navy);clip-path:polygon(0 60%,4% 30%,9% 70%,14% 35%,20% 75%,26% 40%,33% 80%,40% 30%,47% 70%,53% 35%,60% 80%,68% 35%,75% 70%,82% 30%,90% 75%,96% 40%,100% 70%,100% 100%,0 100%)}
-#sky .can{--w:clamp(60px,8vw,100px);left:18%;top:24%;transform:rotate(-20deg)}
-/* COUNTER */
-#count{background:radial-gradient(ellipse at 50% 110%,#13208f,var(--navy) 65%);color:#fff;flex-direction:column;text-align:center}
-.stars{position:absolute;inset:0}
-.stars i{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;animation:tw 3s infinite}
-@keyframes tw{50%{opacity:.15}}
-#count .num{font:900 clamp(60px,15vw,230px)/1 Impact,sans-serif;color:transparent;-webkit-text-stroke:2px #fff;position:relative;z-index:1}
-#count .num small{color:var(--yellow);-webkit-text-stroke:0;font-size:.7em}
-#count p{position:relative;z-index:1;margin-top:24px;max-width:340px;font-size:15px;line-height:1.5}
-#count p em{font-style:normal;color:var(--yellow);font-weight:700}
-#count .can{--w:90px;right:14%;top:20%;transform:rotate(25deg)}
-/* HOW MANY */
-#many{background:#fff;flex-direction:column;gap:5vh;padding:14vh 5vw}
-#many small{letter-spacing:.3em;font-size:11px;color:var(--red);font-weight:800}
-#many h2{font-size:clamp(50px,9vw,130px);text-align:center;color:#1a2a9a}
-.row{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;min-height:130px;align-items:flex-end;max-width:900px}
-.row .mini{width:34px;height:78px;border-radius:6px;background:linear-gradient(90deg,rgba(0,0,0,.3),rgba(255,255,255,.5) 25%,transparent 45%,rgba(0,0,0,.2)),linear-gradient(#c9d0e0 0 10%,#1e35ff 10% 90%,#c9d0e0 90%);animation:pop .4s cubic-bezier(.3,1.6,.5,1) backwards;box-shadow:0 8px 14px rgba(0,10,80,.25)}
-@keyframes pop{from{transform:translateY(-60px) scale(.4);opacity:0}}
-.ctrl{display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:center}
-.ctrl input{width:min(60vw,360px);accent-color:var(--blue)}
-.price{font:900 46px Impact,sans-serif;color:var(--ink)}
-.packs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-.packs button{border:2px solid #cbd2ff;background:#fff;border-radius:99px;padding:12px 22px;font:700 14px Helvetica,Arial,sans-serif;color:var(--ink);cursor:pointer;transition:.2s}
-.packs button.on{background:var(--blue);color:#fff;border-color:var(--blue);transform:scale(1.06)}
-.buy{background:var(--red);color:#fff}
-/* FINAL */
-#final{background:var(--blue);color:#fff;flex-direction:column;gap:30px;text-align:center}
-#final::before{content:"";position:absolute;left:0;right:0;top:-1px;height:60px;background:#fff;clip-path:polygon(0 0,100% 0,100% 30%,95% 80%,88% 40%,80% 90%,70% 45%,62% 85%,52% 35%,44% 85%,35% 40%,26% 90%,17% 45%,8% 85%,0 40%)}
-#final .big{font-size:clamp(90px,22vw,330px);color:var(--red);text-shadow:0 10px 0 rgba(0,0,0,.18)}
-#final h3{font-size:clamp(18px,2.2vw,28px);letter-spacing:.02em}
-#final .can{--w:clamp(70px,10vw,130px);right:12%;bottom:18%;transform:rotate(18deg)}
-footer{position:absolute;bottom:3vh;left:5vw;right:5vw;display:flex;justify-content:space-between;font-size:12px;opacity:.85}
-footer a{color:#fff;margin-right:18px;text-decoration:none}
-.rv{opacity:0;transform:translateY(50px);transition:1s cubic-bezier(.2,.8,.2,1)}.rv.in{opacity:1;transform:none}
-@media(max-width:700px){.split{grid-template-columns:1fr;text-align:center}.split p{margin-inline:auto}#hero p{display:none}#hero .can{left:60%;top:8%}}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:56px 16px}
+main{max-width:920px;margin:auto}
+h1{font-size:clamp(32px,6vw,52px);letter-spacing:-.03em;line-height:1}
+.lead{color:var(--mute);margin:12px 0 36px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+a.card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;color:inherit;text-decoration:none;transition:transform .2s,box-shadow .2s}
+a.card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.08)}
+.sw{height:120px;border-radius:10px;margin-bottom:16px}
+h2{font-size:18px;letter-spacing:-.01em}
+p{color:var(--mute);font-size:13.5px;margin-top:6px;flex:1}
+.go{margin-top:14px;font-weight:700;font-size:13px}
 </style>
 </head>
 <body>
-<nav><b>VOLTA</b><div><a href="#track">Track</a><a href="#sky">Sky</a><a href="#many">Shop</a></div></nav>
-
-<section id="hero">
-  <div class="big" id="word"></div>
-  <div class="can" data-par="-.25"></div>
-  <p>Volta gives you wiiings.<br>Now you can actually buy them.</p>
-  <a class="btn cta" href="#many">Get wiiings</a>
-</section>
-
-<section id="track" class="light">
-  <div class="split">
-    <div class="rv"><h2>The<br>Track.</h2><p>Where Volta gives wiiings to drivers at 300 km/h.</p></div>
-    <div class="blob rv">
-      <svg viewBox="0 0 200 200"><g fill="#08123f"><path d="M20 120 L60 105 L110 102 L170 108 L185 120 L170 132 L40 134Z"/><circle cx="62" cy="130" r="16"/><circle cx="152" cy="130" r="16"/></g><path d="M85 100 L120 82 L135 100Z" fill="#ff2a2a"/><circle cx="62" cy="130" r="7" fill="#fff"/><circle cx="152" cy="130" r="7" fill="#fff"/></svg>
-    </div>
+<main>
+  <h1>3dClassed</h1>
+  <p class="lead">Single-file web projects and 3D builds.</p>
+  <div class="grid">
+    <a class="card" href="energy-drink-landing/index.html"><div class="sw" style="background:linear-gradient(135deg,#1523ff,#050a3a)"></div><h2>Energy-drink landing page</h2><p>Scroll-driven brand page with animated hero, count-up counter and a can picker with live pricing.</p><span class="go">Open →</span></a>
+    <a class="card" href="portfolio/index.html"><div class="sw" style="background:linear-gradient(135deg,#1b1918 50%,#b5582a)"></div><h2>Freelancer portfolio</h2><p>Lamp pull-cord theme switch, flipping role notepad and doors that open into each kind of work.</p><span class="go">Open →</span></a>
+    <a class="card" href="lego-crane/tower-crane.html"><div class="sw" style="background:linear-gradient(135deg,#f2b705,#6b7078)"></div><h2>LEGO tower crane</h2><p>44 real LEGO parts in an interactive 3D viewer: slew the crane, move the trolley, raise the hook.</p><span class="go">Open →</span></a>
   </div>
-  <div class="can" data-par=".2"></div>
-</section>
-
-<section id="sky">
-  <div class="split">
-    <svg class="diver rv" viewBox="0 0 300 220"><g fill="#1b3df0"><ellipse cx="150" cy="95" rx="22" ry="40"/><path d="M135 70 L20 40 L40 62 L130 100Z"/><path d="M165 70 L280 40 L260 62 L170 100Z"/><path d="M138 125 L90 195 L112 190 L148 140Z"/><path d="M162 125 L210 195 L188 190 L152 140Z"/></g><circle cx="150" cy="45" r="19" fill="#ffc928"/><circle cx="150" cy="45" r="11" fill="#08123f"/></svg>
-    <div class="rv"><h2>The<br>Sky.</h2><p>Where wiiings get tested for real.</p></div>
-  </div>
-  <div class="can" data-par="-.15"></div>
-</section>
-
-<section id="count">
-  <div class="stars" id="stars"></div>
-  <div class="num"><span id="n">0</span><small> M</small></div>
-  <p>Stratosphere jump, 2012. A daredevil leapt from right here. <em>You can start a little lower.</em></p>
-  <div class="can" data-par=".3"></div>
-</section>
-
-<section id="many">
-  <small>TOUCHDOWN</small>
-  <h2>How many<br>wiiings?</h2>
-  <div class="row" id="row"></div>
-  <div class="ctrl"><input id="rng" type="range" min="1" max="24" value="6"><div class="price" id="pr"></div></div>
-  <div class="packs" id="packs">
-    <button data-n="1">1 can</button><button data-n="4">4 pack</button><button data-n="12">12 pack</button><button data-n="24">24 tray</button>
-  </div>
-  <button class="btn buy" id="buy">Add to cart</button>
-</section>
-
-<section id="final">
-  <h3 class="rv">Finally, you can buy a can.</h3>
-  <div class="big rv">Volta</div>
-  <a class="btn" href="#hero">Get wiiings</a>
-  <div class="can" data-par="-.2"></div>
-  <footer><div><a href="#">Athletes</a><a href="#">Events</a><a href="#">TV</a><a href="#">Contact</a></div><div>Concept site · not affiliated with any real brand</div></footer>
-</section>
-
-<script>
-// hero word
-"WIIINGS".split("").forEach((c,i)=>{const s=document.createElement("span");s.textContent=c;s.style.animationDelay=i*70+"ms";word.appendChild(s)});
-// parallax + rotation of cans
-const cans=[...document.querySelectorAll(".can[data-par]")];
-function onScroll(){const y=scrollY,h=innerHeight;
- cans.forEach(c=>{const r=c.parentElement.getBoundingClientRect();const p=(r.top+r.height/2-h/2)*parseFloat(c.dataset.par);
-  c.style.transform=`translateY(${p}px) rotate(${(r.top/h)*40+14}deg)`});}
-addEventListener("scroll",onScroll,{passive:true});onScroll();
-// reveal
-const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add("in")),{threshold:.25});
-document.querySelectorAll(".rv").forEach(e=>io.observe(e));
-// stars
-for(let i=0;i<70;i++){const s=document.createElement("i");s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*3}s`;stars.appendChild(s)}
-// counter
-let counted=false;
-new IntersectionObserver(([e])=>{if(e.isIntersecting&&!counted){counted=true;const T=38969,t0=performance.now();
- (function f(t){const k=Math.min(1,(t-t0)/2200),v=Math.floor(T*(1-Math.pow(1-k,3)));n.textContent=v.toLocaleString("en-US");k<1&&requestAnimationFrame(f)})(t0)}},{threshold:.5}).observe(document.getElementById("count"));
-// shop
-const PRICE={1:129,4:479,12:1349,24:2699};
-function price(q){const k=Object.keys(PRICE).map(Number).reverse().find(x=>q>=x)||1;return Math.round(PRICE[k]/k*q)}
-function render(){const q=+rng.value;row.innerHTML="";for(let i=0;i<q;i++){const d=document.createElement("div");d.className="mini";d.style.animationDelay=i*25+"ms";row.appendChild(d)}
- pr.textContent="₹"+price(q).toLocaleString("en-IN");
- document.querySelectorAll("#packs button").forEach(b=>b.classList.toggle("on",+b.dataset.n===q))}
-rng.oninput=render;
-document.querySelectorAll("#packs button").forEach(b=>b.onclick=()=>{rng.value=b.dataset.n;render()});
-buy.onclick=()=>{buy.textContent="Added ✓ — wiiings incoming";setTimeout(()=>buy.textContent="Add to cart",1800)};
-render();
-</script>
+</main>
 </body>
 </html>

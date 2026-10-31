@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>__TITLE__</title>
+<style>
+:root{--bg:#eef1f5;--panel:rgba(255,255,255,.88);--ink:#1b1f24;--mute:#66707c;--acc:#f2b705}
+@media (prefers-color-scheme:dark){:root{--bg:#14171c;--panel:rgba(28,32,38,.88);--ink:#eef1f5;--mute:#9aa4af}}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+canvas{display:block;touch-action:none}
+header{position:fixed;top:16px;left:16px;right:16px;pointer-events:none}
+header h1{font-size:20px;font-weight:800}
+header p{color:var(--mute);font-size:12px}
+#panel{position:fixed;left:16px;bottom:16px;display:flex;gap:8px;background:var(--panel);backdrop-filter:blur(10px);border-radius:14px;padding:10px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+button{border:0;border-radius:9px;padding:8px 12px;font:600 12px system-ui;background:rgba(127,127,127,.15);color:var(--ink);cursor:pointer}
+button.on{background:var(--acc);color:#1b1f24}
+#load{position:fixed;inset:0;display:grid;place-items:center;color:var(--mute)}
+</style>
+</head>
+<body>
+<!-- three.js r160 (MIT, (c) 2010-2023 three.js authors) is embedded as data: URLs so this file works offline. -->
+<header><h1>__TITLE__</h1><p>__SUBTITLE__ · drag to orbit, scroll/pinch to zoom</p></header>
+<div id="load">Loading model…</div>
+<div id="panel"><button id="spin">⟳ Spin</button><button id="edges" class="on">Edges</button><button id="reset">Reset view</button></div>
+<script type="application/json" id="model">__DATA__</script>
+<script type="importmap">__IMPORTMAP__</script>
+<script type="module">
+import * as THREE from "three";
+import {OrbitControls} from "three/addons/controls/OrbitControls.js";
+const D=JSON.parse(document.getElementById("model").textContent);
+const dark=matchMedia("(prefers-color-scheme: dark)").matches;
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color(dark?0x14171c:0xeef1f5);
+const cam=new THREE.PerspectiveCamera(35,innerWidth/innerHeight,1,50000);
+const ctl=new OrbitControls(cam,renderer.domElement);ctl.enableDamping=true;
+scene.add(new THREE.HemisphereLight(0xffffff,dark?0x223344:0xb9c2cc,1.6));
+const sun=new THREE.DirectionalLight(0xffffff,2.2);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);scene.add(sun,sun.target);
+// LDraw: -Y up, 0.05 LDU int16 quantisation; rotate 180deg about X (proper rotation)
+const dec=b=>{const s=atob(b),u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);const q=new Int16Array(u.buffer),f=new Float32Array(q.length);for(let i=0;i<q.length;i+=3){f[i]=q[i]/20;f[i+1]=-q[i+1]/20;f[i+2]=-q[i+2]/20}return f};
+const edgeMat=new THREE.LineBasicMaterial({color:0x222222,transparent:true,opacity:.55}),edgeObjs=[];
+const root=new THREE.Group(),groups={};scene.add(root);
+for(const [name,G] of Object.entries(D.groups)){const grp=new THREE.Group();grp.name=name;
+ for(const m of G.meshes){const geo=new THREE.BufferGeometry();geo.setAttribute("position",new THREE.BufferAttribute(dec(m.p),3));geo.computeVertexNormals();
+  const me=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:m.c,roughness:.45,side:THREE.DoubleSide,transparent:m.a<255,opacity:m.a/255}));
+  me.castShadow=m.a===255;me.receiveShadow=true;grp.add(me)}
+ if(G.edges){const geo=new THREE.BufferGeometry();geo.setAttribute("position",new THREE.BufferAttribute(dec(G.edges.p),3));const l=new THREE.LineSegments(geo,edgeMat);edgeObjs.push(l);grp.add(l)}
+ groups[name]=grp;root.add(grp)}
+window.MODEL={THREE,scene,root,groups,camera:cam,controls:ctl};
+document.getElementById("load").remove();
+const box=new THREE.Box3().setFromObject(root),size=box.getSize(new THREE.Vector3()),ctr=box.getCenter(new THREE.Vector3()),R=size.length()/2;
+const ground=new THREE.Mesh(new THREE.CircleGeometry(R*3,64),new THREE.MeshStandardMaterial({color:dark?0x2a2f36:0xd8dde3,roughness:1}));
+ground.rotation.x=-Math.PI/2;ground.position.y=box.min.y-.5;ground.receiveShadow=true;scene.add(ground);
+sun.position.set(ctr.x+R,ctr.y+R*2,ctr.z+R*.8);sun.target.position.copy(ctr);
+Object.assign(sun.shadow.camera,{left:-R*1.5,right:R*1.5,top:R*1.5,bottom:-R*1.5,near:1,far:R*6});
+scene.fog=new THREE.Fog(scene.background,R*6,R*14);
+const HOME=()=>{const f=Math.max(1,.85/(innerWidth/innerHeight))*R*2.4;const d=new THREE.Vector3(1,.55,1.1).normalize().multiplyScalar(f);cam.position.copy(ctr).add(d);ctl.target.copy(ctr);ctl.update()};HOME();
+const $=id=>document.getElementById(id);
+$("spin").onclick=()=>{ctl.autoRotate=$("spin").classList.toggle("on")};
+$("edges").onclick=()=>{const on=$("edges").classList.toggle("on");edgeObjs.forEach(e=>e.visible=on)};
+$("reset").onclick=HOME;
+addEventListener("resize",()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+renderer.setAnimationLoop(()=>{ctl.update();renderer.render(scene,cam)});
+</script>
+</body>
+</html>

@@ -78,6 +78,6 @@ plan = {"version": 1, "author": "Claude Code for ldraw-nova user (original desig
         "sections": [{"name": "tower-crane.ldr",
                       "description": "Flat-top construction tower crane (original design)",
                       "steps": steps}]}
-out = pathlib.Path(__file__).with_name("tower-crane.plan.json")
+out = pathlib.Path(__file__).parent.with_name("tower-crane.plan.json")
 out.write_text(json.dumps(plan, indent=1))
 print(out, sum(len(s) for s in steps), "placements")

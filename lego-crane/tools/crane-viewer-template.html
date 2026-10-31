@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LEGO Tower Crane</title>
+<style>
+:root{--bg:#eef1f5;--panel:rgba(255,255,255,.88);--ink:#1b1f24;--mute:#66707c;--acc:#f2b705}
+@media (prefers-color-scheme:dark){:root{--bg:#14171c;--panel:rgba(28,32,38,.88);--ink:#eef1f5;--mute:#9aa4af}}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+canvas{display:block;touch-action:none}
+header{position:fixed;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;pointer-events:none}
+header h1{font-size:20px;font-weight:800;letter-spacing:-.01em}
+header p{color:var(--mute);font-size:12px}
+.badge{background:var(--acc);color:#1b1f24;font-weight:800;font-size:11px;padding:4px 9px;border-radius:99px;white-space:nowrap}
+#panel{position:fixed;left:16px;bottom:16px;width:min(320px,calc(100vw - 32px));background:var(--panel);backdrop-filter:blur(10px);border-radius:14px;padding:14px 16px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+#panel label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-top:10px}
+#panel label:first-child{margin-top:0}
+#panel label span{color:var(--mute);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--acc)}
+.row{display:flex;gap:8px;margin-top:12px}
+button{flex:1;border:0;border-radius:9px;padding:8px;font:600 12px system-ui;background:rgba(127,127,127,.15);color:var(--ink);cursor:pointer}
+button.on{background:var(--acc);color:#1b1f24}
+#load{position:fixed;inset:0;display:grid;place-items:center;color:var(--mute)}
+</style>
+</head>
+<body>
+<header><div><h1>LEGO Tower Crane</h1><p>44 parts · built with ldraw-nova · drag to orbit, scroll/pinch to zoom</p></div><span class="badge">LDraw model</span></header>
+<div id="load">Loading model…</div>
+<div id="panel">
+  <label>Slew (rotate) <span id="vS">0°</span></label><input id="slew" type="range" min="-180" max="180" value="0">
+  <label>Trolley position <span id="vT"></span></label><input id="trol" type="range" min="0" max="100" value="58">
+  <label>Hook height <span id="vH"></span></label><input id="hook" type="range" min="0" max="100" value="40">
+  <div class="row"><button id="auto">▶ Auto demo</button><button id="edges" class="on">Edges</button><button id="reset">Reset view</button></div>
+</div>
+<script type="application/json" id="model">__DATA__</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from "three";
+import {OrbitControls} from "three/addons/controls/OrbitControls.js";
+const D=JSON.parse(document.getElementById("model").textContent);
+const dark=matchMedia("(prefers-color-scheme: dark)").matches;
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color(dark?0x14171c:0xeef1f5);
+scene.fog=new THREE.Fog(scene.background,3000,7000);
+const cam=new THREE.PerspectiveCamera(35,innerWidth/innerHeight,5,20000);
+const ctl=new OrbitControls(cam,renderer.domElement);ctl.enableDamping=true;
+const HOME=()=>{cam.position.set(1500,900,1700);ctl.target.set(150,380,0);ctl.update()};HOME();
+scene.add(new THREE.HemisphereLight(0xffffff,dark?0x223:0xb9c2cc,1.6));
+const sun=new THREE.DirectionalLight(0xffffff,2.2);sun.position.set(900,1600,700);sun.castShadow=true;
+Object.assign(sun.shadow.camera,{left:-1200,right:1200,top:1200,bottom:-1200,near:100,far:4000});sun.shadow.mapSize.set(2048,2048);scene.add(sun);
+const ground=new THREE.Mesh(new THREE.CircleGeometry(2200,64),new THREE.MeshStandardMaterial({color:dark?0x2a2f36:0xd8dde3,roughness:1}));
+ground.rotation.x=-Math.PI/2;ground.position.y=-8.5;ground.receiveShadow=true;scene.add(ground);
+
+const dec=b=>{const s=atob(b),u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);const q=new Int16Array(u.buffer),f=new Float32Array(q.length);for(let i=0;i<q.length;i+=3){f[i]=q[i]/20;f[i+1]=-q[i+1]/20;f[i+2]=-q[i+2]/20}return f};
+const edgeMat=new THREE.LineBasicMaterial({color:0x222222,transparent:true,opacity:.55});
+const edgeObjs=[];
+function build(g){const grp=new THREE.Group();const G=D.groups[g];if(!G)return grp;
+ for(const m of G.meshes){const geo=new THREE.BufferGeometry();geo.setAttribute("position",new THREE.BufferAttribute(dec(m.p),3));geo.computeVertexNormals();
+  const mat=new THREE.MeshStandardMaterial({color:m.c,roughness:.45,metalness:g==="hook"?.6:0,side:THREE.DoubleSide,transparent:m.a<255,opacity:m.a/255});
+  const me=new THREE.Mesh(geo,mat);me.castShadow=m.a===255;me.receiveShadow=true;grp.add(me)}
+ if(G.edges){const geo=new THREE.BufferGeometry();geo.setAttribute("position",new THREE.BufferAttribute(dec(G.edges.p),3));const l=new THREE.LineSegments(geo,edgeMat);edgeObjs.push(l);grp.add(l)}
+ return grp}
+const base=build("static"),slew=new THREE.Group(),top=build("slew"),trolley=build("trolley"),rope=build("rope"),hook=build("hook");
+scene.add(base,slew);slew.add(top);
+// moving rig: positioned relative to the modelled trolley X (460) and rope top (y=616)
+const rig=new THREE.Group();slew.add(rig);rig.add(trolley);
+const ropePivot=new THREE.Group();ropePivot.position.set(0,616,0);rope.position.set(0,-616,0);ropePivot.add(rope);rig.add(ropePivot);
+const hookG=new THREE.Group();hookG.add(hook);rig.add(hookG);
+document.getElementById("load").remove();
+
+const X0=460, XMIN=140, XMAX=670, ROPE=400;
+const $=id=>document.getElementById(id);
+function apply(){
+ const s=+$("slew").value,t=+$("trol").value/100,h=+$("hook").value/100;
+ slew.rotation.y=-s*Math.PI/180;
+ const x=XMIN+(XMAX-XMIN)*t; rig.position.x=x-X0;
+ const len=60+h*(560-60);            // rope length from trolley (y=616) down
+ ropePivot.scale.y=len/ROPE; hookG.position.y=ROPE-len;
+ $("vS").textContent=s+"°";$("vT").textContent=Math.round(x/20)+" studs";$("vH").textContent=Math.round((616-len)/24)+" bricks";
+}
+["slew","trol","hook"].forEach(i=>$(i).addEventListener("input",()=>{auto=false;$("auto").classList.remove("on");apply()}));
+let auto=false,t0=0;
+$("auto").onclick=()=>{auto=!auto;$("auto").classList.toggle("on",auto);t0=performance.now()};
+$("edges").onclick=()=>{const on=$("edges").classList.toggle("on");edgeObjs.forEach(e=>e.visible=on)};
+$("reset").onclick=HOME;
+apply();
+addEventListener("resize",()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+renderer.setAnimationLoop(now=>{
+ if(auto){const k=(now-t0)/1000;$("slew").value=Math.round(Math.sin(k*.25)*120);$("trol").value=Math.round(50+45*Math.sin(k*.4));$("hook").value=Math.round(50+45*Math.sin(k*.7+1));apply()}
+ ctl.update();renderer.render(scene,cam)});
+</script>
+</body>
+</html>
