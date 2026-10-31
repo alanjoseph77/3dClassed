@@ -34,6 +34,10 @@ Then open **http://localhost:8787**. To use a different default model: `MODEL=de
 
 The model isn't retrained. For each message the server compares your words with every skill's name and description, and puts the best match (up to about 9,000 characters of its `SKILL.md`) into the model's instructions. Claude uses skills the same way, so **a new skill works as soon as you add its folder**.
 
+## The project notes
+
+Every request also includes the repo's `CLAUDE.md` (the first ~8,000 characters): what the projects are, the owner's preferences, the safety rules and lessons from earlier sessions. To teach the model something lasting, add it to `CLAUDE.md`. It's read fresh on every message, so no restart is needed.
+
 ## Safety
 
 - The server listens only on your own computer (127.0.0.1).

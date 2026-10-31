@@ -22,7 +22,8 @@ const PORT = +(process.env.PORT || 8787);
 const OLLAMA = process.env.OLLAMA || "http://127.0.0.1:11434";
 const MODEL = process.env.MODEL || "qwen2.5-coder:7b";
 const TOKEN = randomBytes(24).toString("hex");   // new every start; only the page this server serves knows it
-const SKILL_CHARS = 9000;     // how much of a skill's text goes into the prompt (small models have small context)
+const SKILL_CHARS = 9000;
+const NOTES_CHARS = 8000;   // CLAUDE.md, the project's memory, also goes into every prompt     // how much of a skill's text goes into the prompt (small models have small context)
 
 // —— skills: name + description from the SKILL.md front matter, body for the prompt ——
 function loadSkills() {
@@ -50,12 +51,19 @@ export function pickSkill(skills, request) {
   }
   return score >= 2 ? best : null;
 }
+// the project's memory: CLAUDE.md at the repo root (read fresh each request, so edits apply at once)
+function projectNotes() {
+  const f = join(ROOT, "CLAUDE.md");
+  return existsSync(f) ? readFileSync(f, "utf8").slice(0, NOTES_CHARS) : "";
+}
 function systemPrompt(skill) {
   let p = `You are a careful coding assistant working in the user's repository at ${ROOT}.
 Answer in the user's language. Prefer complete, working code in fenced blocks.
 When you create or change a file, put the path on the line before the code block as: File: path/relative/to/repo
 When a shell command is needed, put it in a \`\`\`sh block: the user runs it and pastes back the output. The user confirms every file write.
 Never claim you ran or tested something: the user runs it.`;
+  const notes = projectNotes();
+  if (notes) p += `\n\nProject notes (CLAUDE.md): follow them.\n<project-notes>\n${notes}\n</project-notes>`;
   if (skill) p += `\n\nUse this skill for the request. Its folder is .claude/skills/${skill.dir}/ (paths in it are relative to that folder).\n<skill name="${skill.name}">\n${skill.body.slice(0, SKILL_CHARS)}\n</skill>`;
   return p;
 }
