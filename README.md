@@ -8,6 +8,7 @@ Single-file web projects and 3D builds. Every page is one self-contained HTML fi
 | [`portfolio/`](portfolio/) | Freelancer portfolio: lamp pull-cord dark/light switch, flipping role notepad, four doors that open into Web / App / UI-UX / Graphic work pages. Edit the `CONFIG` block for your name, photo and projects. | `portfolio/index.html` |
 | [`lego-crane/`](lego-crane/) | LEGO tower crane (44 real parts) designed with [ldraw-nova](https://github.com/anteloc/ldraw-nova), plus an offline 3D viewer with slew / trolley / hook controls. | `lego-crane/tower-crane.html` |
 | [`lego-car/`](lego-car/) | LEGO sports car: a classic 4-wide Town roadster (40 parts) built with the `/lego` skill, plus an offline 3D viewer with spinning wheels. | `lego-car/sports-car.html` |
+| [`srm-motor/`](srm-motor/) | Interactive isometric figure explaining a switched reluctance motor (6/4, three phases), made with `/anatomy`. | `srm-motor/srm-motor.html` |
 
 `index.html` at the root links to every project.
 
