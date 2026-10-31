@@ -10,6 +10,7 @@ Single-file web projects and 3D builds. Every page is one self-contained HTML fi
 | [`lego-car/`](lego-car/) | LEGO sports car: a classic 4-wide Town roadster (40 parts) built with the `/lego` skill, plus an offline 3D viewer with spinning wheels. | `lego-car/sports-car.html` |
 | [`srm-motor/`](srm-motor/) | Interactive isometric figure explaining a switched reluctance motor (6/4, three phases), made with `/anatomy`. | `srm-motor/srm-motor.html` |
 | [`local-ai/`](local-ai/) | **Local Coder**: a chat app for your own PC that runs a free coding model (Ollama) and uses this repo's skills automatically. | `node local-ai/server.mjs` |
+| [`brick-builder/`](brick-builder/) | **Brick Builder**: type what to build (15 objects, any colour, sizes) and watch it assemble brick by brick in 3D. Offline, one HTML file. | `brick-builder/brick-builder.html` |
 
 `index.html` at the root links to every project.
 

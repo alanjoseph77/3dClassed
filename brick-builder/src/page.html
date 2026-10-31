@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brick Builder</title>
+<style>
+:root { --bg: #eef0f3; --panel: rgba(255,255,255,.86); --ink: #1b1f24; --mute: #687180; --line: #dfe3e8; --acc: #e3000b; }
+@media (prefers-color-scheme: dark) { :root { --bg: #15181c; --panel: rgba(30,34,40,.88); --ink: #eef1f4; --mute: #98a2ae; --line: #2c323a; } }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: radial-gradient(ellipse at 50% 30%, color-mix(in srgb, var(--bg) 70%, #fff 30%), var(--bg)); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; overflow: hidden; }
+#c { position: fixed; inset: 0; width: 100%; height: 100%; touch-action: none; }
+.top { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); width: min(680px, calc(100% - 24px)); background: var(--panel); backdrop-filter: blur(12px); border: 1px solid var(--line); border-radius: 18px; padding: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.12); }
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 14px; margin: 0 4px 8px; }
+.brand i { width: 22px; height: 14px; background: var(--acc); border-radius: 3px; position: relative; box-shadow: inset 0 -2px 0 rgba(0,0,0,.2); }
+.brand i::before, .brand i::after { content: ""; position: absolute; top: -4px; width: 7px; height: 4px; background: var(--acc); border-radius: 2px 2px 0 0; left: 3px; } .brand i::after { left: 12px; }
+form { display: flex; gap: 8px; }
+input[type=text] { flex: 1; min-width: 0; font: inherit; font-size: 16px; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+button[type=submit] { font: inherit; font-weight: 700; padding: 0 18px; border: 0; border-radius: 12px; background: var(--acc); color: #fff; cursor: pointer; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.chips button { font: inherit; font-size: 12px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }
+.chips button:hover { border-color: var(--acc); }
+#msg { font-size: 13px; color: var(--mute); margin: 8px 4px 0; }
+#msg b { color: var(--ink); }
+.bar { height: 3px; background: var(--line); border-radius: 3px; margin-top: 8px; overflow: hidden; } #progress { height: 100%; width: 0; background: var(--acc); }
+.side { position: fixed; right: 14px; bottom: 14px; width: 250px; max-height: 42vh; overflow: auto; background: var(--panel); backdrop-filter: blur(12px); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; font-size: 12px; }
+.side h3 { margin: 0 0 6px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--mute); }
+.side ul { list-style: none; margin: 0; padding: 0; } .side li { display: flex; align-items: center; gap: 7px; padding: 2px 0; } .side li i { width: 12px; height: 12px; border-radius: 3px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); flex: none; } .side li span { margin-left: auto; color: var(--mute); }
+.foot { position: fixed; left: 14px; bottom: 14px; font-size: 12px; color: var(--mute); background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; }
+@media (max-width: 640px) { .side { left: 12px; right: 12px; width: auto; max-height: 24vh; } .foot { display: none; } }
+</style>
+<script type="importmap">__IMPORTMAP__</script>
+</head>
+<body>
+<canvas id="c" aria-label="3D view of the brick model"></canvas>
+<div class="top">
+  <div class="brand"><i></i>Brick Builder</div>
+  <form id="f"><input id="q" type="text" placeholder="Type what to build, e.g. small blue house with garden" aria-label="What to build"><button type="submit">Build</button></form>
+  <div class="chips">
+    <button data-try="red car">red car</button><button data-try="fire truck">fire truck</button><button data-try="yellow house with garden">house</button>
+    <button data-try="grey castle with blue roof">castle</button><button data-try="tall rainbow tower">rainbow tower</button><button data-try="white rocket">rocket</button>
+    <button data-try="blue boat">boat</button><button data-try="orange robot">robot</button><button data-try="green train">train</button><button data-try="yellow crane">crane</button>
+  </div>
+  <div id="msg"></div><div class="bar"><div id="progress"></div></div>
+</div>
+<div class="side"><h3>Parts list</h3><ul id="bom"></ul></div>
+<label class="foot"><input id="spin" type="checkbox" checked> Spin · drag to rotate · scroll to zoom</label>
+<script type="module">__APP__</script>
+</body>
+</html>
