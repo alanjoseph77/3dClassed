@@ -58,7 +58,7 @@ ground.rotation.x=-Math.PI/2;ground.position.y=box.min.y-.5;ground.receiveShadow
 sun.position.set(ctr.x+R,ctr.y+R*2,ctr.z+R*.8);sun.target.position.copy(ctr);
 Object.assign(sun.shadow.camera,{left:-R*1.5,right:R*1.5,top:R*1.5,bottom:-R*1.5,near:1,far:R*6});
 scene.fog=new THREE.Fog(scene.background,R*6,R*14);
-const HOME=()=>{const f=Math.max(1,.85/(innerWidth/innerHeight))*R*2.4;const d=new THREE.Vector3(1,.55,1.1).normalize().multiplyScalar(f);cam.position.copy(ctr).add(d);ctl.target.copy(ctr);ctl.update()};HOME();
+const HOME=()=>{const f=Math.max(1,1.1/(innerWidth/innerHeight))*R*3.4;const d=new THREE.Vector3(1,.55,1.1).normalize().multiplyScalar(f);cam.position.copy(ctr).add(d);ctl.target.copy(ctr);ctl.update()};HOME();
 const $=id=>document.getElementById(id);
 $("spin").onclick=()=>{ctl.autoRotate=$("spin").classList.toggle("on")};
 $("edges").onclick=()=>{const on=$("edges").classList.toggle("on");edgeObjs.forEach(e=>e.visible=on)};

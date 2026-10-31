@@ -1,0 +1,497 @@
+{
+ "version": 1,
+ "author": "Claude Code for 3dClassed (original design)",
+ "sections": [
+  {
+   "name": "sports-car.ldr",
+   "description": "Classic 4-wide Town sports roadster (original design)",
+   "steps": [
+    [
+     {
+      "id": "front-holder",
+      "ref": "4600.dat",
+      "colour": 0,
+      "at": [
+       0,
+       -23,
+       -80
+      ],
+      "purpose": "front wheel-pin plate"
+     },
+     {
+      "id": "front-rim-l",
+      "ref": "4624.dat",
+      "colour": 71,
+      "at": [
+       -30,
+       -18,
+       -80
+      ],
+      "yaw": 90,
+      "purpose": "rim"
+     },
+     {
+      "id": "front-rim-r",
+      "ref": "4624.dat",
+      "colour": 71,
+      "at": [
+       30,
+       -18,
+       -80
+      ],
+      "yaw": -90,
+      "purpose": "rim"
+     },
+     {
+      "id": "front-tyre-l",
+      "ref": "3641.dat",
+      "colour": 0,
+      "at": [
+       -30,
+       -18,
+       -80
+      ],
+      "yaw": 90,
+      "purpose": "tyre"
+     },
+     {
+      "id": "front-tyre-r",
+      "ref": "3641.dat",
+      "colour": 0,
+      "at": [
+       30,
+       -18,
+       -80
+      ],
+      "yaw": -90,
+      "purpose": "tyre"
+     }
+    ],
+    [
+     {
+      "id": "front-mudguard",
+      "ref": "3788.dat",
+      "colour": 4,
+      "at": [
+       0,
+       -39,
+       -80
+      ],
+      "purpose": "front wheel arches"
+     }
+    ],
+    [
+     {
+      "id": "rear-holder",
+      "ref": "4600.dat",
+      "colour": 0,
+      "at": [
+       0,
+       -23,
+       60
+      ],
+      "purpose": "rear wheel-pin plate"
+     },
+     {
+      "id": "rear-rim-l",
+      "ref": "4624.dat",
+      "colour": 71,
+      "at": [
+       -30,
+       -18,
+       60
+      ],
+      "yaw": 90,
+      "purpose": "rim"
+     },
+     {
+      "id": "rear-rim-r",
+      "ref": "4624.dat",
+      "colour": 71,
+      "at": [
+       30,
+       -18,
+       60
+      ],
+      "yaw": -90,
+      "purpose": "rim"
+     },
+     {
+      "id": "rear-tyre-l",
+      "ref": "3641.dat",
+      "colour": 0,
+      "at": [
+       -30,
+       -18,
+       60
+      ],
+      "yaw": 90,
+      "purpose": "tyre"
+     },
+     {
+      "id": "rear-tyre-r",
+      "ref": "3641.dat",
+      "colour": 0,
+      "at": [
+       30,
+       -18,
+       60
+      ],
+      "yaw": -90,
+      "purpose": "tyre"
+     }
+    ],
+    [
+     {
+      "id": "rear-mudguard",
+      "ref": "3788.dat",
+      "colour": 4,
+      "at": [
+       0,
+       -39,
+       60
+      ],
+      "purpose": "rear wheel arches"
+     }
+    ],
+    [
+     {
+      "id": "chassis",
+      "ref": "3029.dat",
+      "colour": 4,
+      "at": [
+       0,
+       -47,
+       0
+      ],
+      "yaw": 90,
+      "purpose": "4x12 chassis plate over both mudguards"
+     }
+    ],
+    [
+     {
+      "id": "bumper-f",
+      "ref": "3710.dat",
+      "colour": 71,
+      "at": [
+       0,
+       -39,
+       -110
+      ],
+      "purpose": "front bumper under the nose"
+     },
+     {
+      "id": "bumper-r",
+      "ref": "3710.dat",
+      "colour": 71,
+      "at": [
+       0,
+       -39,
+       110
+      ],
+      "purpose": "rear bumper"
+     }
+    ],
+    [
+     {
+      "id": "headlight-l",
+      "ref": "4070.dat",
+      "colour": 15,
+      "at": [
+       -30,
+       -71,
+       -110
+      ],
+      "purpose": "headlight"
+     },
+     {
+      "id": "headlight-r",
+      "ref": "4070.dat",
+      "colour": 15,
+      "at": [
+       30,
+       -71,
+       -110
+      ],
+      "purpose": "headlight"
+     },
+     {
+      "id": "nose",
+      "ref": "3004.dat",
+      "colour": 4,
+      "at": [
+       0,
+       -71,
+       -110
+      ],
+      "purpose": "nose centre"
+     },
+     {
+      "id": "bonnet-1",
+      "ref": "3010.dat",
+      "colour": 4,
+      "at": [
+       0,
+       -71,
+       -90
+      ],
+      "purpose": "bonnet"
+     },
+     {
+      "id": "bonnet-2",
+      "ref": "3010.dat",
+      "colour": 4,
+      "at": [
+       0,
+       -71,
+       -70
+      ],
+      "purpose": "bonnet"
+     }
+    ],
+    [
+     {
+      "id": "bonnet-tile",
+      "ref": "87079.dat",
+      "colour": 4,
+      "at": [
+       0,
+       -79,
+       -100.0
+      ],
+      "purpose": "smooth bonnet"
+     },
+     {
+      "id": "cowl-tile",
+      "ref": "2431.dat",
+      "colour": 0,
+      "at": [
+       0,
+       -79,
+       -70
+      ],
+      "purpose": "black cowl strip in front of the screen"
+     }
+    ],
+    [
+     {
+      "id": "windscreen",
+      "ref": "3823.dat",
+      "colour": 47,
+      "at": [
+       0,
+       -95,
+       -30
+      ],
+      "purpose": "raked 2x4x2 windscreen on rows 3-4"
+     }
+    ],
+    [
+     {
+      "id": "steering",
+      "ref": "3829c01.dat",
+      "colour": 0,
+      "at": [
+       0,
+       -55,
+       -10
+      ],
+      "purpose": "steering wheel"
+     },
+     {
+      "id": "seat",
+      "ref": "4079.dat",
+      "colour": 0,
+      "at": [
+       0,
+       -55,
+       20.0
+      ],
+      "purpose": "driver seat"
+     },
+     {
+      "id": "side-l",
+      "ref": "3622.dat",
+      "colour": 4,
+      "at": [
+       -30,
+       -71,
+       10
+      ],
+      "yaw": 90,
+      "purpose": "left cockpit side"
+     },
+     {
+      "id": "side-r",
+      "ref": "3622.dat",
+      "colour": 4,
+      "at": [
+       30,
+       -71,
+       10
+      ],
+      "yaw": 90,
+      "purpose": "right cockpit side"
+     }
+    ],
+    [
+     {
+      "id": "sill-l",
+      "ref": "63864.dat",
+      "colour": 4,
+      "at": [
+       -30,
+       -79,
+       10
+      ],
+      "yaw": 90,
+      "purpose": "cockpit edge tile"
+     },
+     {
+      "id": "sill-r",
+      "ref": "63864.dat",
+      "colour": 4,
+      "at": [
+       30,
+       -79,
+       10
+      ],
+      "yaw": 90,
+      "purpose": "cockpit edge tile"
+     }
+    ],
+    [
+     {
+      "id": "deck-9",
+      "ref": "3010.dat",
+      "colour": 4,
+      "at": [
+       0,
+       -71,
+       70
+      ],
+      "purpose": "rear deck"
+     },
+     {
+      "id": "deck-10",
+      "ref": "3010.dat",
+      "colour": 4,
+      "at": [
+       0,
+       -71,
+       90
+      ],
+      "purpose": "rear deck"
+     },
+     {
+      "id": "tail-l",
+      "ref": "4070.dat",
+      "colour": 36,
+      "at": [
+       -30,
+       -71,
+       110
+      ],
+      "yaw": 180,
+      "purpose": "tail light"
+     },
+     {
+      "id": "tail-r",
+      "ref": "4070.dat",
+      "colour": 36,
+      "at": [
+       30,
+       -71,
+       110
+      ],
+      "yaw": 180,
+      "purpose": "tail light"
+     },
+     {
+      "id": "tail-c",
+      "ref": "3004.dat",
+      "colour": 4,
+      "at": [
+       0,
+       -71,
+       110
+      ],
+      "purpose": "tail centre"
+     }
+    ],
+    [
+     {
+      "id": "deck-tile",
+      "ref": "87079.dat",
+      "colour": 4,
+      "at": [
+       0,
+       -79,
+       80.0
+      ],
+      "purpose": "smooth rear deck"
+     },
+     {
+      "id": "strut-l",
+      "ref": "3062b.dat",
+      "colour": 0,
+      "at": [
+       -30,
+       -95,
+       110
+      ],
+      "purpose": "spoiler strut"
+     },
+     {
+      "id": "strut-r",
+      "ref": "3062b.dat",
+      "colour": 0,
+      "at": [
+       30,
+       -95,
+       110
+      ],
+      "purpose": "spoiler strut"
+     },
+     {
+      "id": "tail-plate",
+      "ref": "3023.dat",
+      "colour": 4,
+      "at": [
+       0,
+       -79,
+       110
+      ],
+      "purpose": "rear deck between struts"
+     }
+    ],
+    [
+     {
+      "id": "wing",
+      "ref": "3710.dat",
+      "colour": 0,
+      "at": [
+       0,
+       -103,
+       110
+      ],
+      "purpose": "spoiler wing"
+     }
+    ],
+    [
+     {
+      "id": "wing-tile",
+      "ref": "2431.dat",
+      "colour": 4,
+      "at": [
+       0,
+       -111,
+       110
+      ],
+      "purpose": "spoiler top"
+     }
+    ]
+   ]
+  }
+ ]
+}
