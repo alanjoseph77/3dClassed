@@ -18,7 +18,7 @@ A collection of **single-file web projects, 3D builds and short films made in co
 | `last-lighthouse-keeper/` | 41 s vertical paper-cut short film for YouTube (built with `/lemo-opuscar`) |
 | `local-ai/` | **Local Coder**: chat app for the owner's PC that runs a free model (Ollama) and uses this repo's skills |
 | `tools/html-anime/` | Library files for the `html-anime-*` skills |
-| `.claude/skills/` | The skills (below) |
+| `.claude/skills/` | The skills (below), including the GSAP, Lenis, Vanta and React Bits set added 2026-11-01 |
 
 ## Skills: which one to use
 
@@ -29,6 +29,10 @@ A collection of **single-file web projects, 3D builds and short films made in co
 | explain a technical idea / system as an interactive figure or diagram | `/anatomy` | Isometric machine drawings; run its line check to 0 |
 | an anime short drawn in HTML | `/html-anime-direct` first, then `-timing`, `-cel`, `-camera`, `-render` | Library in `tools/html-anime/` |
 | a flip book, sketchbook site, pages that turn like paper | `/page-flip-book` | Tested example in `example/book.html` |
+| animation on a web page: tweens, timelines, scroll-driven reveals, pinned sections, text split, SVG draw | `/gsap-core` first, then `/gsap-timeline`, `/gsap-scrolltrigger`, `/gsap-plugins`, `/gsap-utils`, `/gsap-performance` (`/gsap-react`, `/gsap-frameworks` only for React, Vue, Svelte) | Install and licence facts in `/gsap-library`. Tested offline example: `.claude/skills/gsap-library/example/` |
+| smooth (inertia) scrolling | `/lenis` | Sync with ScrollTrigger as shown in the skill; keep it off form and upload pages |
+| animated 3D background behind a hero (waves, net, fog, birds, globe...) | `/vanta` | WebGL: one effect per page, destroy it off-screen, skip it for reduced motion |
+| ready-made animated React components and effects | `/react-bits` | Reference only here (needs React; licence MIT + Commons Clause, do not copy its files) |
 
 If nothing fits, do the task directly. If the same kind of task keeps coming back, offer to write a new skill for it.
 
@@ -65,6 +69,8 @@ If nothing fits, do the task directly. If the same kind of task keeps coming bac
 - ffmpeg is 6.1 here; `lemo-opuscar`'s `mux.sh` wants 7+ and rejects the audio length on 6.x. Fallback that worked: two-pass `loudnorm` (I=-14, TP=-1.2) by hand, `-c:v copy`, AAC 192k, `apad -t <duration>` (see `last-lighthouse-keeper/build.sh`), then check both stream durations and `ebur128`.
 - The Whisper model for `asr_check.py` comes from huggingface.co (blocked), so narration can't be speech-checked here: say so.
 - Containers are fresh each session: anything installed outside the repo (`~/lemo-opuscar`, `~/ldraw-nova`) has to be set up again. Only the repo persists.
+
+- Animation libraries (GSAP, Lenis, Vanta, three.js) are inlined into the single HTML file: `npm i` them in a temp folder and paste the `dist/*.min.js` files in (`.claude/skills/gsap-library/example/build.mjs` does this). GSAP's own licence is "no charge" (not MIT), so keep its licence link when you ship it.
 
 ## How to learn a new skill from a GitHub link
 
