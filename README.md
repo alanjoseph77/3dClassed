@@ -9,6 +9,7 @@ Single-file web projects and 3D builds. Every page is one self-contained HTML fi
 | [`lego-crane/`](lego-crane/) | LEGO tower crane (44 real parts) designed with [ldraw-nova](https://github.com/anteloc/ldraw-nova), plus an offline 3D viewer with slew / trolley / hook controls. | `lego-crane/tower-crane.html` |
 | [`lego-car/`](lego-car/) | LEGO sports car: a classic 4-wide Town roadster (40 parts) built with the `/lego` skill, plus an offline 3D viewer with spinning wheels. | `lego-car/sports-car.html` |
 | [`srm-motor/`](srm-motor/) | Interactive isometric figure explaining a switched reluctance motor (6/4, three phases), made with `/anatomy`. | `srm-motor/srm-motor.html` |
+| [`srm-teardown/`](srm-teardown/) | 3D simulator of a 6/4 switched reluctance motor: run it, step the phases, explode it. Made with `/teardown`. | `srm-teardown/srm-teardown.html` |
 | [`local-ai/`](local-ai/) | **Local Coder**: a chat app for your own PC that runs a free coding model (Ollama) and uses this repo's skills automatically. | `node local-ai/server.mjs` |
 | [`brick-builder/`](brick-builder/) | **Brick Builder**: type what to build (15 objects, any colour, sizes) and watch it assemble brick by brick in 3D. Offline, one HTML file. | `brick-builder/brick-builder.html` |
 | [`last-lighthouse-keeper/`](last-lighthouse-keeper/) | **The Last Lighthouse Keeper**: 41 s vertical paper-cut short film (YouTube Shorts), made with `/lemo-opuscar`. | `last-lighthouse-keeper/last-lighthouse-keeper.mp4` |
