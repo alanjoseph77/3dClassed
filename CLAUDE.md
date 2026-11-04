@@ -33,6 +33,7 @@ A collection of **single-file web projects, 3D builds and short films made in co
 | smooth (inertia) scrolling | `/lenis` | Sync with ScrollTrigger as shown in the skill; keep it off form and upload pages |
 | animated 3D background behind a hero (waves, net, fog, birds, globe...) | `/vanta` | WebGL: one effect per page, destroy it off-screen, skip it for reduced motion |
 | ready-made animated React components and effects | `/react-bits` | Reference only here (needs React; licence MIT + Commons Clause, do not copy its files) |
+| a machine / mechanism as a 3D simulator you can take apart | `/teardown` | One offline HTML page; first use needs `npm install && npx playwright install chromium` in the skill folder (ask the owner first) |
 
 If nothing fits, do the task directly. If the same kind of task keeps coming back, offer to write a new skill for it.
 
