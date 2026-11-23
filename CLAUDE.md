@@ -20,6 +20,7 @@ A collection of **single-file web projects, 3D builds and short films made in co
 | `paper-kittens/` | Kids' hide-and-find game on the paper house (tap to find 5 kittens); reuses `paper-house/src` as its kit; no timer, no losing, no online features |
 | `paper-explorer/` | Walk-and-collect game on the paper garden (walking child, thumb stick, drag-to-orbit via `window.__papercraftOrbit`); reuses `paper-house/src` |
 | `paper-home/` | Kids' dollhouse game (cut-away paper house, coin shop, levels, localStorage save, `?name=`); coins earned in play only, never real money; reuses `paper-house/src` |
+| `train/` | Realistic 3D locomotive + coaches in plain three.js (not paper style): `src/main.js`, `node build.mjs` (needs `DEPS` with three@0.187.0 + esbuild); owner wants the train first, game later |
 | `last-lighthouse-keeper/` | 41 s vertical paper-cut short film for YouTube (built with `/lemo-opuscar`) |
 | `local-ai/` | **Local Coder**: chat app for the owner's PC that runs a free model (Ollama) and uses this repo's skills |
 | `tools/html-anime/` | Library files for the `html-anime-*` skills |
