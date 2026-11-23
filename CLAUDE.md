@@ -16,6 +16,7 @@ A collection of **single-file web projects, 3D builds and short films made in co
 | `client-finder/` | Lead tracker + outreach templates + 14-day plan for finding clients (data in localStorage only; messages are sent one by one by the owner, never in bulk) |
 | `srm-motor/` | Interactive isometric figure: switched reluctance motor (built with `/anatomy`) |
 | `srm-teardown/` | 3D SRM simulator (run / step / exploded), built with `/teardown`; machine source in `.claude/skills/teardown/sims/srm-*` |
+| `paper-house/` | Single pop-up paper house (`/papercraft`); `node build.mjs` inlines three r187 (needs `DEPS` = a node_modules with three@0.187.0 + esbuild) |
 | `last-lighthouse-keeper/` | 41 s vertical paper-cut short film for YouTube (built with `/lemo-opuscar`) |
 | `local-ai/` | **Local Coder**: chat app for the owner's PC that runs a free model (Ollama) and uses this repo's skills |
 | `tools/html-anime/` | Library files for the `html-anime-*` skills |
