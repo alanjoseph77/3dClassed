@@ -171,7 +171,9 @@ export function makeWorld(scene, route, SCALE) {
     const np = isLast ? 25 : 70; for (let k = 0; k < np; k++) { const plat2 = r() < 0.3; const p = person(g, PEOPLE[Math.floor(r() * PEOPLE.length)], ['#6b4226', '#8d5a3b', '#a8714a', '#5a3820'][Math.floor(r() * 4)]); p.position.set(PL.x0 + 10 + r() * 170 * (plat2 ? 0.8 : 1), PL.top, plat2 ? TRACK2 + 3 + r() * 4 : -3.4 - r() * 5.5); p.rotation.y = r() * 6; }
     // signals, stop board, speed boards (face the approaching train)
     const home = makeSignal(g, -560, -2.9), starter = makeSignal(g, 32, -2.6);
-    postBoard(g, rectBoard('STOP', '#f2c12e', '#111', 512, 256, 130), 2, -2.5, 1.2, 0.6, 2.2, -Math.PI / 2, 1);
+    postBoard(g, rectBoard('STOP', '#f2c12e', '#111', 512, 256, 130), 1, -2.4, 1.8, 0.9, 2.6, -Math.PI / 2, 2);
+    { const c = cv(256, 64), x = c.getContext('2d'); x.fillStyle = '#f2c12e'; x.fillRect(0, 0, 256, 64); x.fillStyle = '#111'; for (let k = -64; k < 256; k += 40) { x.beginPath(); x.moveTo(k, 64); x.lineTo(k + 20, 0); x.lineTo(k + 40, 0); x.lineTo(k + 20, 64); x.fill(); }
+      const plate = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.45), new THREE.MeshStandardMaterial({ map: tex(c), roughness: 0.7 })); plate.rotation.set(-Math.PI / 2, 0, Math.PI / 2); plate.position.set(0.3, 0.02, 0); g.add(plate); }
     postBoard(g, roundBoard('60'), -440, -2.8, 1.0, 1.0, 2.4, -Math.PI / 2, 1);
     postBoard(g, roundBoard('30'), -150, -2.8, 1.0, 1.0, 2.4, -Math.PI / 2, 1);
     postBoard(g, roundBoard('45'), 40, -3.0, 1.0, 1.0, 2.4, -Math.PI / 2, 1);

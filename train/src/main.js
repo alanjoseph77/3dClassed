@@ -36,7 +36,7 @@ function clack() { if (!ac || muted) return; const t = ac.currentTime, b = ac.cr
 const PILOT_KEY = 'locopilot.name';
 let pilot = 'Ravi Kumar'; try { pilot = localStorage.getItem(PILOT_KEY) || pilot; } catch (e) { /* storage blocked */ }
 let W = null, route = null, train = null, cars = [], sF = 0, v = 0, notch = 0, mode = 'lobby', camMode = 'chase', clock = 0, nextIdx = 1, dwell = 0, halted = false, elapsed = 0;
-let score = null, overT = 0, lastClack = 0, msgT = 0, report = [], departed = false;
+let paused = false, score = null, overT = 0, lastClack = 0, msgT = 0, report = [], departed = false;
 const CAMS = ['chase', 'cab', 'side'];
 const fmt = (sec) => { sec = ((sec % 86400) + 86400) % 86400; const h = Math.floor(sec / 3600), m = Math.floor(sec / 60) % 60; return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0'); };
 const parseT = (t) => { const [h, m] = t.split(':').map(Number); return h * 3600 + m * 60; };
@@ -57,7 +57,8 @@ function startDuty(r) {
   const tt = timetable(r); W.tt = tt; clock = tt[0].dep - 5 * 60;
   W.stations.forEach((st, i) => { W.setAspect(st, 'home', i === 0 ? 'green' : 'amber'); W.setAspect(st, 'starter', 'red'); });
   mode = 'drive'; document.body.classList.add('driving'); camMode = 'chase'; $('lobby').hidden = true; $('slip').hidden = true; $('report').hidden = true; $('hud').hidden = false; $('ctl').hidden = false;
-  say('Duty ' + r.train + ' ' + r.trainName + ': wait for the green signal, then notch up', 4500);
+  let seen = false; try { seen = localStorage.getItem('locopilot.help') === '1'; } catch (e) { /* storage blocked */ }
+  if (!seen) openHelp(); else say('Duty ' + r.train + ' ' + r.trainName + ': wait for the green signal', 3500);
 }
 function limitAt(s, w = W) {
   if (!w) return { lim: 110, why: 'Line speed' }; let lim = 110, why = 'Line speed';
@@ -127,16 +128,31 @@ function poseTrain(t) {
   for (const w of spinning) w.rotation.z -= 0; // rotated in the loop
 }
 let camPos = new THREE.Vector3(), camLook = new THREE.Vector3(), camInit = false;
+const ORB0 = { yaw: -0.42, pitch: 0.32, dist: 34 }, orb = { ...ORB0 }, look = { yaw: 0, pitch: 0 };
 function placeCamera(dt, t) {
   let p, l;
   if (mode === 'lobby' || mode === 'report') { const s = sF - 40 + Math.sin(t * 0.07) * 40; p = W.at(s + 28, -16, 6.5, tmp); l = W.at(sF - 50, 0, 2.6, tmp2); }
-  else if (camMode === 'cab') { p = W.at(sF + 0.35, -0.5, 3.45, tmp); l = W.at(sF + 90, -0.3, 2.0, tmp2); }
+  else if (camMode === 'cab') { const th = W.heading(sF) + look.yaw; p = W.at(sF + 0.35, -0.5, 3.45, tmp); l = tmp2.set(p.x + Math.cos(th) * 80, p.y - 1.4 + Math.tan(look.pitch) * 80, p.z + Math.sin(th) * 80); }
   else if (camMode === 'side') { const s = sF + 30; p = W.at(s, TRACK2_ + 4, 3.2, tmp); l = W.at(sF - 30, 0, 2.2, tmp2); }
-  else { p = W.at(sF - 30, 7.0, 7.8, tmp); l = W.at(sF + 45, 0, 2.6, tmp2); }
-  const k = camInit ? 1 - Math.exp(-dt * (camMode === 'cab' ? 20 : 4)) : 1; camInit = true;
+  else { const sc = sF - 14, th = W.heading(sc) + Math.PI + orb.yaw, cp = Math.cos(orb.pitch); l = W.at(sc, 0, 2.4, tmp2);
+    p = tmp.set(l.x + Math.cos(th) * cp * orb.dist, Math.max(1.2, l.y + Math.sin(orb.pitch) * orb.dist), l.z + Math.sin(th) * cp * orb.dist); }
+  const k = camInit ? 1 - Math.exp(-dt * (camMode === 'cab' ? 20 : dragging ? 30 : 5)) : 1; camInit = true;
   camPos.lerp(p, k); camLook.lerp(l, k); camera.position.copy(camPos); camera.lookAt(camLook);
   $('cabframe').hidden = !(mode === 'drive' && camMode === 'cab');
 }
+// drag to turn the view, pinch or wheel to zoom, double tap to reset (chase and cab views)
+const ptrs = new Map(); let dragging = false, pinch0 = 0, lastTap = 0;
+canvas.addEventListener('pointerdown', (e) => { ptrs.set(e.pointerId, [e.clientX, e.clientY]); try { canvas.setPointerCapture(e.pointerId); } catch (err) { /* synthetic */ } dragging = true;
+  if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; pinch0 = Math.hypot(a[0] - b[0], a[1] - b[1]); }
+  const now = performance.now(); if (now - lastTap < 300 && ptrs.size === 1) { Object.assign(orb, ORB0); look.yaw = look.pitch = 0; } lastTap = now; });
+canvas.addEventListener('pointermove', (e) => { if (!ptrs.has(e.pointerId)) return; const [x0, y0] = ptrs.get(e.pointerId), dx = e.clientX - x0, dy = e.clientY - y0; ptrs.set(e.pointerId, [e.clientX, e.clientY]);
+  if (ptrs.size === 2) { const [a, b] = [...ptrs.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); if (pinch0) orb.dist = Math.min(90, Math.max(10, orb.dist * pinch0 / d)); pinch0 = d; return; }
+  if (camMode === 'side') { camMode = 'chase'; $('cam').textContent = 'View: chase'; }
+  if (camMode === 'cab') { look.yaw = Math.max(-1.3, Math.min(1.3, look.yaw - dx * 0.005)); look.pitch = Math.max(-0.35, Math.min(0.35, look.pitch - dy * 0.004)); }
+  else { orb.yaw -= dx * 0.008; orb.pitch = Math.max(0.05, Math.min(1.35, orb.pitch + dy * 0.006)); } });
+const ptrUp = (e) => { ptrs.delete(e.pointerId); if (ptrs.size < 2) pinch0 = 0; if (!ptrs.size) dragging = false; };
+canvas.addEventListener('pointerup', ptrUp); canvas.addEventListener('pointercancel', ptrUp);
+canvas.addEventListener('wheel', (e) => { e.preventDefault(); orb.dist = Math.min(90, Math.max(10, orb.dist * Math.exp(e.deltaY * 0.001))); }, { passive: false });
 
 // ---- HUD and India map ----
 const mapCtx = (c) => c.getContext('2d');
@@ -155,7 +171,32 @@ function drawMap(c, r, prog = null, all = true) {
   if (r && prog != null) { const km = prog, S = r.stations; let i = 0; while (i < S.length - 2 && S[i + 1].km < km) i++; const t = Math.max(0, Math.min(1, (km - S[i].km) / (S[i + 1].km - S[i].km))); const [x0, y0] = P(S[i].lon, S[i].lat), [x1, y1] = P(S[i + 1].lon, S[i + 1].lat); const x = x0 + (x1 - x0) * t, y = y0 + (y1 - y0) * t; g.fillStyle = '#f2c12e'; g.strokeStyle = '#111'; g.lineWidth = 2; g.beginPath(); g.arc(x, y, 6, 0, 7); g.fill(); g.stroke(); }
   g.fillStyle = 'rgba(0,0,0,.45)'; g.font = `${Math.max(9, w / 40)}px system-ui`; g.fillText('Land outline only (no borders) · Natural Earth', 6, h - 6);
 }
+// the coach: one plain instruction for what to do right now
+function coach() {
+  const i = Math.min(nextIdx, W.stations.length - 1), st = W.stations[i], prev = W.stations[nextIdx - 1], d = st.s - sF, kmh = v * 3.6, { lim } = limitAt(sF);
+  let icon = 'go', text = '', sub = '';
+  if (halted) {
+    if (prev && prev.aspect === 'green') { icon = 'go'; text = 'Signal is GREEN: press ▲ Power 3 or 4 times to start'; sub = 'Keep below 30 km/h until you leave the platform'; }
+    else if (!departed) { icon = 'wait'; text = 'Wait at ' + prev.en + ': the starter signal ahead is RED'; sub = 'It turns green at departure time. Do not move on red.'; }
+    else { icon = 'wait'; text = 'Doors open: passengers boarding. Starter is RED'; sub = 'Wait for green, then power up.'; }
+  } else {
+    const need = v * v / (2 * Math.max(d, 0.5));
+    if (d < 1500 && d > -40) {
+      if (d < 3 && v < 0.6) { icon = 'stop'; text = 'STOP here: hold ▼ Brake until the train stops'; }
+      else if (need > 0.32) { const n = Math.min(6, Math.ceil(need / 0.17)); icon = 'brake'; text = 'BRAKE now: set Brake ' + n + ' (press ▼)'; sub = 'Stop the loco front at the yellow STOP board: ' + Math.max(0, Math.round(d)) + ' m'; }
+      else if (kmh > lim + 2) { icon = 'brake'; text = 'Too fast: slow to ' + lim + ' km/h (press ▼)'; sub = 'Stop board in ' + Math.round(d) + ' m'; }
+      else if (d < 120 && v < 3) { icon = 'go'; text = 'Creep up to the STOP board: Power 1, then coast (0)'; sub = Math.round(d) + ' m to go'; }
+      else { icon = 'go'; text = 'Approaching ' + st.en + ': keep to ' + lim + ' km/h and get ready to brake'; sub = 'Stop board in ' + Math.round(d) + ' m'; }
+    } else if (kmh > lim + 2) { icon = 'brake'; text = 'Too fast! Brake to ' + lim + ' km/h (press ▼)'; }
+    else if (kmh < lim - 8) { icon = 'go'; text = 'Power up (▲) to ' + lim + ' km/h'; sub = 'Next halt ' + st.en + ' in ' + (d / SCALE).toFixed(1) + ' km'; }
+    else { icon = 'ok'; text = 'Good speed: set 0 (coast) to hold about ' + lim + ' km/h'; sub = 'Next halt ' + st.en + ' in ' + (d / SCALE).toFixed(1) + ' km'; }
+  }
+  const c = $('coach'); c.className = 'coach ' + icon; $('coachtxt').textContent = text; $('coachsub').textContent = sub;
+  // the stop gauge: the last 300 m before the STOP board, true scale
+  const g = $('stopgauge'); if (!halted && d < 300 && d > -40) { g.hidden = false; $('stopfill').style.left = Math.max(0, Math.min(100, (1 - d / 300) * 100)) + '%'; $('stopm').textContent = d >= 0 ? Math.round(d) + ' m to STOP' : Math.round(-d) + ' m past!'; } else g.hidden = true;
+}
 function hud() {
+  coach();
   const st = W.stations[Math.min(nextIdx, W.stations.length - 1)], kmLeft = Math.max(0, (st.s - sF) / SCALE), { lim, why } = limitAt(sF), kmh = v * 3.6;
   $('h-train').textContent = route.train + ' ' + route.trainName; $('h-pilot').textContent = 'LP ' + pilot;
   $('h-next').textContent = st.en + ' (' + st.code + ')'; $('h-dist').textContent = kmLeft < 1 ? Math.round(kmLeft * 1000 / SCALE * SCALE) + ' m' : kmLeft.toFixed(1) + ' km';
@@ -171,7 +212,7 @@ function hud() {
 
 // ---- input ----
 const setNotch = (n) => { notch = Math.max(-7, Math.min(8, n)); audio(); };
-addEventListener('keydown', (e) => { if (mode !== 'drive' || /input/i.test(e.target.tagName)) return;
+addEventListener('keydown', (e) => { if (mode !== 'drive' || paused || /input/i.test(e.target.tagName)) return;
   if (e.code === 'ArrowUp' || e.code === 'KeyW') setNotch(notch < -6 ? -6 : notch + 1); else if (e.code === 'ArrowDown' || e.code === 'KeyS') setNotch(notch - 1 < -6 ? -6 : notch - 1);
   else if (e.code === 'Space' || e.code === 'KeyH') horn(); else if (e.code === 'KeyE') setNotch(-7); else if (e.code === 'KeyC') cycleCam(); else if (e.code === 'Digit0') setNotch(0); else return; e.preventDefault(); });
 const cycleCam = () => { camMode = CAMS[(CAMS.indexOf(camMode) + 1) % CAMS.length]; $('cam').textContent = 'View: ' + camMode; camInit = false; };
@@ -209,6 +250,9 @@ $('fs').addEventListener('click', async () => {
 });
 for (const ev of ['fullscreenchange', 'webkitfullscreenchange']) document.addEventListener(ev, () => { fsLabel(); setTimeout(fit, 60); });
 $('portraitok').addEventListener('click', () => document.body.classList.add('portrait-ok'));
+function openHelp() { paused = true; $('help').hidden = false; }
+$('helpok').addEventListener('click', () => { paused = false; $('help').hidden = true; try { localStorage.setItem('locopilot.help', '1'); } catch (e) { /* ignore */ } });
+$('helpbtn').addEventListener('click', openHelp);
 $('back').addEventListener('click', showLobby); $('again').addEventListener('click', showLobby);
 
 // ---- loop ----
@@ -218,7 +262,7 @@ startDuty(ROUTES[0]); mode = 'lobby'; $('hud').hidden = true; $('ctl').hidden = 
 let last = performance.now(), t = 0;
 function frame(now) {
   const dt = Math.min(0.05, (now - last) / 1000); last = now; t += dt;
-  if (mode === 'drive') { physics(dt); clock += dt * TIME_X; elapsed += dt; }
+  if (mode === 'drive' && !paused) { physics(dt); clock += dt * TIME_X; elapsed += dt; }
   for (const w of spinning) w.rotation.z -= v * dt / WR;
   W.update(sF); poseTrain(t); placeCamera(dt, t);
   const lead = W.at(sF, 0, 0, tmp); sun.position.copy(lead).addScaledVector(sunDir, 200); sun.target.position.copy(lead); ground.position.set(Math.round(camera.position.x / 10) * 10, -0.58, Math.round(camera.position.z / 10) * 10); grass.offset.set(ground.position.x / 10, -ground.position.z / 10);

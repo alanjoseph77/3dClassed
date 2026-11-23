@@ -17,7 +17,17 @@ const html = `<!doctype html>
 html,body{margin:0;height:100%;overflow:hidden;background:#c9d6df;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink)}
 canvas#gl{display:block;width:100%;height:100%;touch-action:none}
 [hidden]{display:none!important}
-.panel{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:14px;overflow:auto;background:rgba(20,28,38,.25)}
+.coach{position:fixed;left:50%;top:max(10px,env(safe-area-inset-top));transform:translateX(-50%);display:none;align-items:center;gap:10px;max-width:min(520px,44vw);background:#f2c12e;color:#111;border-radius:14px;padding:8px 14px;box-shadow:0 6px 20px rgba(0,0,0,.25);z-index:5}
+body.driving .coach{display:flex}body.driving:has(#help:not([hidden])) .coach,body:has(.panel:not([hidden])) .fsbtn{display:none}.coach i{width:30px;height:30px;border-radius:50%;flex:none;background:#2e7d32;box-shadow:inset 0 0 0 4px rgba(255,255,255,.5)}
+.coach.brake i,.coach.stop i{background:#c62828}.coach.wait i{background:#555}.coach.ok i{background:#1565c0}.coach.brake{background:#ffcf4a}.coach.stop{background:#ff8a80}
+.coach b{display:block;font-size:15px;line-height:1.25}.coach small{display:block;font-size:12.5px;opacity:.8;margin-top:2px}
+#stopgauge{position:fixed;left:50%;bottom:calc(max(10px,env(safe-area-inset-bottom)) + 118px);transform:translateX(-50%);width:min(520px,70vw);background:rgba(14,20,28,.82);color:#fff;border-radius:12px;padding:8px 12px;text-align:center;z-index:5}
+.gtrack{position:relative;height:16px;border-radius:8px;background:linear-gradient(90deg,#3a3f46,#3a3f46 92%,#f2c12e 92%,#f2c12e 96%,#c62828 96%)}.gtrack span{position:absolute;top:-4px;width:24px;height:24px;margin-left:-12px;border-radius:6px;background:#fff;box-shadow:0 0 0 3px #7d1a1f}.gtrack em{position:absolute;right:2%;top:-20px;font:700 11px system-ui;font-style:normal;color:#f2c12e}#stopm{display:block;margin-top:6px;font-size:15px}
+.help ol{padding-left:20px;margin:8px 0;font-size:14.5px;line-height:1.45}.help li{margin-bottom:6px}.k{display:inline-block;padding:1px 7px;border-radius:6px;background:#2b2f35;color:#fff;font-weight:700;font-size:13px}.k.g{background:#2e7d32}.k.o{background:#c77d10}.k.r{background:#b71c1c}
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-1px}.dot.red{background:#ff3b2a}.dot.green{background:#2aff6a;box-shadow:0 0 0 1px #1b5e20}.dot.amber{background:#ffb21a}
+@media (orientation:portrait) and (max-width:760px){.coach{top:auto;bottom:calc(max(10px,env(safe-area-inset-bottom)) + 128px);max-width:calc(100% - 20px);width:calc(100% - 20px)}#stopgauge{bottom:calc(max(10px,env(safe-area-inset-bottom)) + 210px)}}
+@media (orientation:landscape) and (max-height:520px){.coach{max-width:44vw;padding:5px 10px;gap:7px}.coach i{width:20px;height:20px}.coach b{font-size:12px}.coach small{font-size:11px}#stopgauge{bottom:62px;padding:5px 10px}#stopm{font-size:12px;margin-top:3px}.help ol{font-size:12.5px}}
+.panel{z-index:50;position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:14px;overflow:auto;background:rgba(20,28,38,.25)}
 .card{background:var(--card);border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.25);padding:18px 20px;max-width:980px;width:100%;max-height:calc(100% - 20px);overflow:auto}
 .card h1{margin:0;font-size:24px}.card h2{margin:0 0 6px;font-size:20px}
 .lob{display:grid;grid-template-columns:1.1fr 1fr;gap:18px}.who{display:flex;gap:12px;align-items:center;margin:10px 0 14px}.ava{width:76px;height:76px;flex:none}
@@ -40,7 +50,7 @@ table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}th,td{text
 #notch{font-weight:700;margin-top:4px}#notch.p{color:#7cff9a}#notch.b{color:#ffb21a}
 .lever{display:grid;grid-template-columns:repeat(3,auto);gap:6px}.lever button,.tools button{font:700 15px system-ui;min-width:54px;min-height:52px;border-radius:12px;border:0;background:rgba(14,20,28,.82);color:#fff;cursor:pointer}
 .lever #up{background:#2e7d32}.lever #dn{background:#c77d10}.lever #eb{background:#b71c1c}.tools{display:flex;flex-direction:column;gap:6px}.tools button{min-height:40px;font-size:13px;padding:0 10px}
-#msg{position:fixed;left:50%;top:72px;transform:translateX(-50%);background:rgba(14,20,28,.88);color:#fff;padding:10px 16px;border-radius:12px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;max-width:calc(100% - 30px);text-align:center}#msg.on{opacity:1}
+#msg{position:fixed;left:50%;top:30%;transform:translateX(-50%);background:rgba(14,20,28,.88);color:#fff;padding:10px 16px;border-radius:12px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;max-width:calc(100% - 30px);text-align:center}#msg.on{opacity:1}
 #halt{color:var(--yel);font-weight:700}
 #cabframe{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 72% 62% at 50% 44%,transparent 92%,rgba(20,22,26,.96) 93%),linear-gradient(transparent 82%,#2b2f35 82%)}
 #cabframe:after{content:"";position:absolute;left:50%;top:4%;bottom:18%;width:14px;margin-left:-7px;background:#2b2f35}
@@ -80,9 +90,23 @@ body:not(.driving) .fsbtn{top:auto;bottom:max(8px,env(safe-area-inset-bottom));r
 <div id="ctl" hidden>
   <div class="speedo"><div><b id="spd">0</b> km/h</div><div class="bar"><i id="spdbar"></i></div><div id="notch">Coast (0)</div></div>
   <div class="lever"><button id="up" title="Power up (↑ / W)">▲ Power</button><button id="zero" title="Coast (0)">0</button><button id="dn" title="Brake (↓ / S)">▼ Brake</button><button id="hornb" title="Horn (H)">Horn</button><button id="eb" title="Emergency brake (E)">EB</button><button id="cam" title="Camera (C)">View: chase</button></div>
-  <div class="tools"><button id="mute">Sound on</button><button id="quit">Lobby</button></div>
+  <div class="tools"><button id="helpbtn" title="How to drive">? Help</button><button id="mute">Sound on</button><button id="quit">Lobby</button></div>
 </div>
 <div id="msg"></div>
+<div class="coach go" id="coach"><i></i><div><b id="coachtxt"></b><small id="coachsub"></small></div></div>
+<div id="stopgauge" hidden><div class="gtrack"><span id="stopfill"></span><em>STOP</em></div><b id="stopm"></b></div>
+<div class="panel" id="help" hidden><div class="card help"><h2>How to drive your train</h2>
+<ol>
+<li><b>Your duty:</b> drive from the first station to the last, stop at every station on the duty slip and keep to the timetable.</li>
+<li><b>Controls:</b> <span class="k g">▲ Power</span> more speed (press again for more, up to 8) · <span class="k o">▼ Brake</span> slow down (Brake 1 gentle to Brake 6 strong) · <span class="k">0</span> coast · <span class="k r">EB</span> emergency stop · <span class="k">Horn</span>. Keyboard: ↑/W, ↓/S, 0, E, H.</li>
+<li><b>Starting:</b> look at the signal ahead of the train. <span class="dot red"></span> red = wait. When it turns <span class="dot green"></span> green, press <span class="k g">▲ Power</span> 3 or 4 times.</li>
+<li><b>Speed:</b> obey the round speed boards and the limit shown on screen: 110 on the line, 60 near a station, 30 at the platform, 45 leaving it, 60 where men are working. The speed bar turns red if you are too fast.</li>
+<li><b>Signals:</b> <span class="dot amber"></span> yellow home signal = the next station is a stop, get ready to brake. Never pass a red signal.</li>
+<li><b>Where to stop:</b> stop the <b>front of the engine</b> at the yellow <b>STOP</b> board at the end of the platform (there is a yellow-black plate between the rails). When the message says <b>BRAKE now</b>, set the brake number it shows. The bar at the bottom counts the last 300 m.</li>
+<li><b>At the station:</b> wait while passengers board. When the starter signal turns green, power up and go to the next station.</li>
+<li><b>Camera:</b> drag the screen to turn around the train, pinch or scroll to zoom, double tap to reset. <b>View</b> switches chase, driver's cab and side views.</li>
+</ol><p class="small">The yellow box at the top always tells you what to do next.</p>
+<div class="row"><button class="btn" id="helpok" type="button">Start driving</button></div></div></div>
 <button class="fsbtn" id="fs" type="button">⛶ Full screen</button>
 <div id="rotate"><div><div class="ph"></div><b>Turn your phone sideways</b><br>The line looks best in landscape.<br><button id="portraitok" type="button">Play in portrait</button></div></div>
 <div class="panel" id="lobby" hidden><div class="card"><div class="lob"><div>
