@@ -20,7 +20,7 @@ A collection of **single-file web projects, 3D builds and short films made in co
 | `paper-kittens/` | Kids' hide-and-find game on the paper house (tap to find 5 kittens); reuses `paper-house/src` as its kit; no timer, no losing, no online features |
 | `paper-explorer/` | Walk-and-collect game on the paper garden (walking child, thumb stick, drag-to-orbit via `window.__papercraftOrbit`); reuses `paper-house/src` |
 | `paper-home/` | Kids' dollhouse game (cut-away paper house, coin shop, levels, localStorage save, `?name=`); coins earned in play only, never real money; reuses `paper-house/src` |
-| `train/` | Realistic 3D locomotive + coaches in plain three.js (not paper style): `src/main.js`, `node build.mjs` (needs `DEPS` with three@0.187.0 + esbuild); owner wants the train first, game later |
+| `train/` | **Loco Pilot** game: Indian-style electric train on real routes (`src/data.js` routes and stations, `world.js` line and stations, `rolling.js` loco and coaches, `main.js` game). Made-up train/loco numbers, no Indian Railways logos; map = land outline only, no borders. `node build.mjs` with `DEPS` (three@0.187.0 + esbuild) |
 | `last-lighthouse-keeper/` | 41 s vertical paper-cut short film for YouTube (built with `/lemo-opuscar`) |
 | `local-ai/` | **Local Coder**: chat app for the owner's PC that runs a free model (Ollama) and uses this repo's skills |
 | `tools/html-anime/` | Library files for the `html-anime-*` skills |
@@ -83,6 +83,8 @@ If nothing fits, do the task directly. If the same kind of task keeps coming bac
 - papercraft games: the harness walks the hero with `play: true`; `__papercraft.steer(x, z)` drives a touch stick; `walkMap(...)` shows blocked cells (stars placed on solids can't be reached); a hero walking game needs the fill to cover the whole walkable area, not only the opening frame.
 
 - papercraft overlay games: a bottom shop bar covers taps, so keep tap targets (stars, garden) above it; popups created after start lie flat until `h.reset(0); h.set(1, 0)`; set `focus:[x,y,z]` in `createHarness` or the lens blurs the house and focuses the hero; use a larger `view.dist` in portrait.
+
+- Indian maps: draw land outline only (Natural Earth land via `world-atlas`), never international or state borders, to avoid disputed-border problems. Real place and station names are fine; avoid real railway logos, liveries and train numbers. For Hindi in canvas text, test with `apt-get install fonts-deva` in the container (users' devices have their own fonts).
 
 ## How to learn a new skill from a GitHub link
 
