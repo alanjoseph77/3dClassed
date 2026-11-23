@@ -13,6 +13,7 @@ Single-file web projects and 3D builds. Every page is one self-contained HTML fi
 | [`paper-house/`](paper-house/) | A single pop-up papercraft house in a blossom garden. Made with `/papercraft`. | `paper-house/paper-house.html` |
 | [`paper-kittens/`](paper-kittens/) | Kids' tap game on the paper house: find five hidden kittens. | `paper-kittens/paper-kittens.html` |
 | [`paper-explorer/`](paper-explorer/) | Walk a paper child round a turnable 3D pop-up garden and collect 12 golden stars (keys or thumb stick). | `paper-explorer/paper-explorer.html` |
+| [`paper-home/`](paper-home/) | Dollhouse game: earn coins, level up to open rooms, buy and place furniture in a paper house (`?name=Mia` personalises). | `paper-home/paper-home.html` |
 | [`local-ai/`](local-ai/) | **Local Coder**: a chat app for your own PC that runs a free coding model (Ollama) and uses this repo's skills automatically. | `node local-ai/server.mjs` |
 | [`brick-builder/`](brick-builder/) | **Brick Builder**: type what to build (15 objects, any colour, sizes) and watch it assemble brick by brick in 3D. Offline, one HTML file. | `brick-builder/brick-builder.html` |
 | [`last-lighthouse-keeper/`](last-lighthouse-keeper/) | **The Last Lighthouse Keeper**: 41 s vertical paper-cut short film (YouTube Shorts), made with `/lemo-opuscar`. | `last-lighthouse-keeper/last-lighthouse-keeper.mp4` |

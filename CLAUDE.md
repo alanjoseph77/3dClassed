@@ -19,6 +19,7 @@ A collection of **single-file web projects, 3D builds and short films made in co
 | `paper-house/` | Single pop-up paper house (`/papercraft`); `node build.mjs` inlines three r187 (needs `DEPS` = a node_modules with three@0.187.0 + esbuild) |
 | `paper-kittens/` | Kids' hide-and-find game on the paper house (tap to find 5 kittens); reuses `paper-house/src` as its kit; no timer, no losing, no online features |
 | `paper-explorer/` | Walk-and-collect game on the paper garden (walking child, thumb stick, drag-to-orbit via `window.__papercraftOrbit`); reuses `paper-house/src` |
+| `paper-home/` | Kids' dollhouse game (cut-away paper house, coin shop, levels, localStorage save, `?name=`); coins earned in play only, never real money; reuses `paper-house/src` |
 | `last-lighthouse-keeper/` | 41 s vertical paper-cut short film for YouTube (built with `/lemo-opuscar`) |
 | `local-ai/` | **Local Coder**: chat app for the owner's PC that runs a free model (Ollama) and uses this repo's skills |
 | `tools/html-anime/` | Library files for the `html-anime-*` skills |
@@ -79,6 +80,8 @@ If nothing fits, do the task directly. If the same kind of task keeps coming bac
 - Animation libraries (GSAP, Lenis, Vanta, three.js) are inlined into the single HTML file: `npm i` them in a temp folder and paste the `dist/*.min.js` files in (`.claude/skills/gsap-library/example/build.mjs` does this). GSAP's own licence is "no charge" (not MIT), so keep its licence link when you ship it.
 
 - papercraft games: the harness walks the hero with `play: true`; `__papercraft.steer(x, z)` drives a touch stick; `walkMap(...)` shows blocked cells (stars placed on solids can't be reached); a hero walking game needs the fill to cover the whole walkable area, not only the opening frame.
+
+- papercraft overlay games: a bottom shop bar covers taps, so keep tap targets (stars, garden) above it; popups created after start lie flat until `h.reset(0); h.set(1, 0)`; set `focus:[x,y,z]` in `createHarness` or the lens blurs the house and focuses the hero; use a larger `view.dist` in portrait.
 
 ## How to learn a new skill from a GitHub link
 
