@@ -501,7 +501,7 @@ export function createHarness({ bounds = { x0: -64, x1: 64, z0: -62, z1: 38 }, g
       view.tyaw = THREE.MathUtils.clamp(view.tyaw - e.movementX * 0.15, -12, 12);      // the world is filled where the camera
       view.tpitch = THREE.MathUtils.clamp(view.tpitch + e.movementY * 0.12, 40, 55);  // looks; never so low the far edge shows
     });
-    addEventListener('pointerup', () => { if (drag && drag.moved < 6) setOpen(!up); drag = null; });
+    addEventListener('pointerup', () => { if (drag && drag.moved < 6 && !window.__papercraftNoFold) setOpen(!up); drag = null; });
 
     // walking (?walk): WASD / arrows move the hero over the walk field; the camera follows and refits the shadow map.
     // Movement as the source game moves its player: velocity approaches the wanted one at a constant rate (a snappy
