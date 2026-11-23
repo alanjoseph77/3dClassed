@@ -2,7 +2,7 @@
 
 Sign on in the crew lobby as a loco pilot, take a duty and drive an electric passenger train in an Indian broad-gauge style on real routes. Obey signals and speed boards, stop at every platform's STOP board and finish the duty on time.
 
-- **Open `train.html`** (one offline file, ~830 KB, three.js bundled).
+- **Open `train.html`** (one offline file, ~830 KB, three.js bundled). Best on a phone held sideways: the **Full screen** button hides the browser bars and, on Android Chrome, also locks the screen to landscape. iPhone Safari has no full-screen mode for web pages (use Share > Add to Home Screen instead). In portrait, a "turn your phone sideways" card appears, with a "Play in portrait" option.
 - **Crew lobby:** your loco pilot (name editable, saved on this device), today's four duties, and an India map with the routes.
 - **Duty slip:** train and loco number, sign-on time, timetable (arrival and departure for every station) and the rules.
 - **Driving:** power and brake notches (↑/W, ↓/S, on-screen buttons), coast (0), emergency brake (E), horn (H/Space), camera (C: chase, cab, side). HUD: speed, speed limit and why, next signal aspect, next halt and distance, clock and due time, minimap.
@@ -13,6 +13,6 @@ Sign on in the crew lobby as a loco pilot, take a duty and drive an electric pas
 
 **Not real Indian Railways material:** train numbers, train names and loco numbers are made up; there are no logos, real liveries or official names, and the look is "in the style of", not a copy of any real locomotive. The map shows land outline only (Natural Earth, public domain, via the ISC-licensed `world-atlas` package), with no national or state borders drawn. Hindi spellings were written for the game and should be checked by a native reader.
 
-**Tested** in headless Chromium (software GL): the lobby, duty slip, signing on, departure on the green starter, a full Mumbai to Pune duty driven by a scripted driver (all 5 halts, report shows on-time arrivals and "Good stop" at each), the stop and SPAD logic, chase/cab/side views, a 390×844 phone layout; no console errors. **Not tested:** a real GPU, phone or tablet (frame rate on weak devices is unknown), every duty end to end by hand, and the sound (made in the browser; I could not listen to it). Regional-language boards (Malayalam, Tamil, Kannada, Marathi) are not included; boards use Hindi and English.
+**Tested** in headless Chromium (software GL): the lobby, duty slip, signing on, departure on the green starter, a full Mumbai to Pune duty driven by a scripted driver (all 5 halts, report shows on-time arrivals and "Good stop" at each), the stop and SPAD logic, chase/cab/side views, a 390×844 phone layout, an 844×390 landscape phone layout (compact HUD, one row of controls), the full-screen button and the portrait "turn your phone" card; no console errors. **Not tested:** a real GPU, phone or tablet (frame rate on weak devices is unknown), every duty end to end by hand, and the sound (made in the browser; I could not listen to it). Regional-language boards (Malayalam, Tamil, Kannada, Marathi) are not included; boards use Hindi and English.
 
 Rebuild: `node build.mjs` with `DEPS` pointing at a `node_modules` that has `three@0.187.0` and esbuild. `src/land.json` was made from `world-atlas/land-50m.json`.

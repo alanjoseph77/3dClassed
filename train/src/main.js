@@ -56,7 +56,7 @@ function startDuty(r) {
   score = { pts: 100, over: 0, spad: 0, notes: [] }; report = [];
   const tt = timetable(r); W.tt = tt; clock = tt[0].dep - 5 * 60;
   W.stations.forEach((st, i) => { W.setAspect(st, 'home', i === 0 ? 'green' : 'amber'); W.setAspect(st, 'starter', 'red'); });
-  mode = 'drive'; camMode = 'chase'; $('lobby').hidden = true; $('slip').hidden = true; $('report').hidden = true; $('hud').hidden = false; $('ctl').hidden = false;
+  mode = 'drive'; document.body.classList.add('driving'); camMode = 'chase'; $('lobby').hidden = true; $('slip').hidden = true; $('report').hidden = true; $('hud').hidden = false; $('ctl').hidden = false;
   say('Duty ' + r.train + ' ' + r.trainName + ': wait for the green signal, then notch up', 4500);
 }
 function limitAt(s, w = W) {
@@ -109,7 +109,7 @@ function physics(dt) {
   }
 }
 function endDuty() {
-  mode = 'report'; $('hud').hidden = true; $('ctl').hidden = true; $('cabframe').hidden = true;
+  mode = 'report'; document.body.classList.remove('driving'); $('hud').hidden = true; $('ctl').hidden = true; $('cabframe').hidden = true;
   const grade = score.pts >= 90 ? 'Excellent' : score.pts >= 75 ? 'Good' : score.pts >= 55 ? 'Needs practice' : 'Retraining needed';
   const rows = report.map((r) => `<tr><td>${r.st.en} <small>${r.st.code}</small></td><td>${fmt(W.tt[r.st.i].arr)}</td><td>${fmt(r.arr)}</td><td>${r.delay > 0 ? '+' + r.delay : r.delay} min</td><td>${Math.abs(r.err).toFixed(0)} m ${r.err >= 0 ? 'past' : 'short'}</td><td>${r.note}</td></tr>`).join('');
   $('rep').innerHTML = `<h2>Duty complete: ${route.train} ${route.trainName}</h2><p>Loco pilot <b>${esc(pilot)}</b> · ${route.title} · ${route.stations[route.stations.length - 1].km} km</p>
@@ -181,7 +181,7 @@ $('mute').addEventListener('click', () => { muted = !muted; $('mute').textConten
 $('quit').addEventListener('click', () => { if (confirm('Leave this duty and go back to the crew lobby?')) showLobby(); });
 
 // ---- lobby, duty slip, report ----
-function showLobby() { mode = 'lobby'; $('hud').hidden = true; $('ctl').hidden = true; $('report').hidden = true; $('slip').hidden = true; $('lobby').hidden = false; $('cabframe').hidden = true;
+function showLobby() { mode = 'lobby'; document.body.classList.remove('driving'); $('hud').hidden = true; $('ctl').hidden = true; $('report').hidden = true; $('slip').hidden = true; $('lobby').hidden = false; $('cabframe').hidden = true;
   $('pname').value = pilot; const list = $('duties'); list.innerHTML = '';
   ROUTES.forEach((r) => { const S = r.stations, km = S[S.length - 1].km, mins = Math.round((km * SCALE / 24 + (S.length - 1) * 8) / 60); const b = document.createElement('button'); b.className = 'duty';
     b.innerHTML = `<b>${r.train} ${r.trainName}</b><span>${S[0].en} → ${S[S.length - 1].en}</span><small>${km} km · ${S.length} stations · about ${mins} min to drive</small>`; b.addEventListener('click', () => showSlip(r)); list.appendChild(b); });
@@ -195,11 +195,25 @@ function showSlip(r) {
     <ul class="rules"><li>Wait for the <b>green starter signal</b>, then notch up (↑ or W).</li><li>Obey speed boards: line 110, approach 60, platform 30 km/h.</li><li>A <b>yellow home signal</b> means stop at the next platform: brake (↓ or S) and stop at the <b>STOP board</b>.</li><li>Never pass a red signal. Horn: H or Space. Camera: C. Emergency brake: E.</li></ul>`;
   drawMap($('slipmap'), r, null, true); $('signon').onclick = () => { audio(); startDuty(r); };
 }
+// ---- full screen (and landscape where the browser allows it) ----
+const fsEl = document.documentElement, fsOn = () => !!(document.fullscreenElement || document.webkitFullscreenElement);
+const fsLabel = () => { $('fs').textContent = fsOn() ? '✕ Exit full screen' : '⛶ Full screen'; };
+$('fs').addEventListener('click', async () => {
+  try {
+    if (fsOn()) { await (document.exitFullscreen || document.webkitExitFullscreen).call(document); return; }
+    const req = fsEl.requestFullscreen || fsEl.webkitRequestFullscreen;
+    if (!req) { say('This browser has no full-screen mode. On iPhone, use Share > Add to Home Screen.', 4500); return; }
+    await req.call(fsEl, { navigationUI: 'hide' });
+    if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(() => {});
+  } catch (e) { say('Full screen was blocked by the browser', 3000); }
+});
+for (const ev of ['fullscreenchange', 'webkitfullscreenchange']) document.addEventListener(ev, () => { fsLabel(); setTimeout(fit, 60); });
+$('portraitok').addEventListener('click', () => document.body.classList.add('portrait-ok'));
 $('back').addEventListener('click', showLobby); $('again').addEventListener('click', showLobby);
 
 // ---- loop ----
 function fit() { const r = canvas.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width / r.height; camera.fov = camera.aspect < 1 ? 70 : 50; camera.updateProjectionMatrix(); }
-addEventListener('resize', fit); fit();
+addEventListener('resize', fit); addEventListener('orientationchange', () => setTimeout(fit, 120)); fit();
 startDuty(ROUTES[0]); mode = 'lobby'; $('hud').hidden = true; $('ctl').hidden = true; showLobby();
 let last = performance.now(), t = 0;
 function frame(now) {

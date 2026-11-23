@@ -11,7 +11,7 @@ const res = await esbuild.build({ entryPoints: [path.join(HERE, 'src/main.js')],
 const js = res.outputFiles[0].text.replace(/<\/script/g, '<\\/script');
 const avatar = `<svg viewBox="0 0 120 120" class="ava" aria-hidden="true"><circle cx="60" cy="60" r="58" fill="#dfe8f0"/><path d="M18 118c4-26 20-36 42-36s38 10 42 36z" fill="#2c4a7a"/><path d="M48 84l12 14 12-14z" fill="#f4f1e8"/><circle cx="60" cy="56" r="22" fill="#a8714a"/><path d="M38 50c2-14 12-20 22-20s20 6 22 20c-6-6-14-8-22-8s-16 2-22 8z" fill="#1e1a18"/><rect x="34" y="28" width="52" height="12" rx="4" fill="#1d2c4a"/><rect x="40" y="38" width="40" height="5" rx="2" fill="#111"/><circle cx="51" cy="57" r="2.6" fill="#1a120c"/><circle cx="69" cy="57" r="2.6" fill="#1a120c"/><path d="M50 67c6 5 14 5 20 0" stroke="#1a120c" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M49 64c4-2 7-2 11 0 4-2 7-2 11 0" stroke="#1e1a18" stroke-width="3" fill="none"/></svg>`;
 const html = `<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Loco Pilot</title><link rel="icon" href="data:,">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#1c2229"><title>Loco Pilot</title><link rel="icon" href="data:,">
 <style>
 :root{--ink:#1c2229;--card:rgba(255,252,244,.96);--red:#8b1e24;--yel:#f2c12e}
 html,body{margin:0;height:100%;overflow:hidden;background:#c9d6df;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink)}
@@ -44,6 +44,30 @@ table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}th,td{text
 #halt{color:var(--yel);font-weight:700}
 #cabframe{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 72% 62% at 50% 44%,transparent 92%,rgba(20,22,26,.96) 93%),linear-gradient(transparent 82%,#2b2f35 82%)}
 #cabframe:after{content:"";position:absolute;left:50%;top:4%;bottom:18%;width:14px;margin-left:-7px;background:#2b2f35}
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#hud{top:max(10px,env(safe-area-inset-top));left:max(10px,env(safe-area-inset-left));right:max(10px,env(safe-area-inset-right))}
+#ctl{padding:10px max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left))}
+.fsbtn{position:fixed;right:max(10px,env(safe-area-inset-right));bottom:max(10px,env(safe-area-inset-bottom));z-index:30;font:700 14px system-ui;min-height:40px;padding:0 14px;border-radius:12px;border:0;background:rgba(14,20,28,.82);color:#fff;cursor:pointer}
+#rotate{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;background:rgba(14,20,28,.92);color:#fff;text-align:center;padding:24px}
+#rotate .ph{width:64px;height:104px;border:5px solid #fff;border-radius:14px;margin:0 auto 18px;animation:rot 2.4s ease-in-out infinite}
+@keyframes rot{0%,20%{transform:rotate(0)}50%,80%{transform:rotate(-90deg)}100%{transform:rotate(0)}}
+#rotate button{margin-top:16px;font:700 15px system-ui;min-height:44px;padding:0 18px;border-radius:12px;border:0;background:#f2c12e;color:#111}
+@media (orientation:portrait) and (max-width:760px){body.driving:not(.portrait-ok) #rotate{display:flex}}
+@media (prefers-reduced-motion:reduce){#rotate .ph{animation:none;transform:rotate(-90deg)}}
+/* phones held sideways: everything smaller so the line stays in view */
+@media (orientation:landscape) and (max-height:520px){
+  .hcard{font-size:11.5px;padding:5px 8px;border-radius:10px}#h-next{font-size:12.5px}#h-pilot{display:none}
+  .limrow{margin-top:3px;gap:6px}.limsign{width:34px;height:34px;border-width:4px;font-size:13px}#mini{width:96px;height:96px}
+  #ctl{padding-top:4px}.speedo{min-width:96px;padding:5px 10px}.speedo b{font-size:26px}#notch{font-size:12px}
+  .lever{grid-template-columns:repeat(6,auto)}.lever button{min-width:50px;min-height:44px;font-size:13px;padding:0 6px}
+  .tools{flex-direction:row}.tools button{min-height:44px}
+  .fsbtn{bottom:auto;top:max(8px,env(safe-area-inset-top));right:calc(max(10px,env(safe-area-inset-right)) + 112px);min-height:34px;font-size:12px}
+  #msg{top:28%;font-size:13px}
+  .card{padding:12px 14px}.card h1{font-size:19px}.card h2{font-size:16px}.lob,.slipgrid{grid-template-columns:1.2fr 1fr;gap:12px}
+  .who{margin:6px 0 8px}.ava{width:56px;height:56px}.duty{padding:7px 10px;margin-bottom:6px}table{font-size:12px}.rules{font-size:12px}
+}
+@media (orientation:portrait) and (max-width:760px){.fsbtn{top:max(10px,env(safe-area-inset-top));bottom:auto}}
+body:not(.driving) .fsbtn{top:auto;bottom:max(8px,env(safe-area-inset-bottom));right:max(8px,env(safe-area-inset-right))}
 @media (max-width:760px){#msg{top:40%}.lob,.slipgrid{grid-template-columns:1fr}#mini{width:110px;height:110px}.hcard{font-size:12px;padding:6px 9px}#h-next{font-size:13px}.speedo b{font-size:28px}.speedo{min-width:110px}.lever button{min-width:48px;min-height:48px}#hud{flex-wrap:wrap}}
 </style></head>
 <body><canvas id="gl"></canvas>
@@ -59,6 +83,8 @@ table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}th,td{text
   <div class="tools"><button id="mute">Sound on</button><button id="quit">Lobby</button></div>
 </div>
 <div id="msg"></div>
+<button class="fsbtn" id="fs" type="button">⛶ Full screen</button>
+<div id="rotate"><div><div class="ph"></div><b>Turn your phone sideways</b><br>The line looks best in landscape.<br><button id="portraitok" type="button">Play in portrait</button></div></div>
 <div class="panel" id="lobby" hidden><div class="card"><div class="lob"><div>
   <h1>Crew lobby</h1><div class="who">${avatar}<div><label for="pname">Loco pilot</label><input id="pname" maxlength="28" autocomplete="off"></div></div>
   <h2>Today's duties</h2><div id="duties"></div></div>
