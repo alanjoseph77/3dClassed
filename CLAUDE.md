@@ -18,6 +18,7 @@ A collection of **single-file web projects, 3D builds and short films made in co
 | `srm-teardown/` | 3D SRM simulator (run / step / exploded), built with `/teardown`; machine source in `.claude/skills/teardown/sims/srm-*` |
 | `paper-house/` | Single pop-up paper house (`/papercraft`); `node build.mjs` inlines three r187 (needs `DEPS` = a node_modules with three@0.187.0 + esbuild) |
 | `paper-kittens/` | Kids' hide-and-find game on the paper house (tap to find 5 kittens); reuses `paper-house/src` as its kit; no timer, no losing, no online features |
+| `paper-explorer/` | Walk-and-collect game on the paper garden (walking child, thumb stick, drag-to-orbit via `window.__papercraftOrbit`); reuses `paper-house/src` |
 | `last-lighthouse-keeper/` | 41 s vertical paper-cut short film for YouTube (built with `/lemo-opuscar`) |
 | `local-ai/` | **Local Coder**: chat app for the owner's PC that runs a free model (Ollama) and uses this repo's skills |
 | `tools/html-anime/` | Library files for the `html-anime-*` skills |
@@ -76,6 +77,8 @@ If nothing fits, do the task directly. If the same kind of task keeps coming bac
 - Containers are fresh each session: anything installed outside the repo (`~/lemo-opuscar`, `~/ldraw-nova`) has to be set up again. Only the repo persists.
 
 - Animation libraries (GSAP, Lenis, Vanta, three.js) are inlined into the single HTML file: `npm i` them in a temp folder and paste the `dist/*.min.js` files in (`.claude/skills/gsap-library/example/build.mjs` does this). GSAP's own licence is "no charge" (not MIT), so keep its licence link when you ship it.
+
+- papercraft games: the harness walks the hero with `play: true`; `__papercraft.steer(x, z)` drives a touch stick; `walkMap(...)` shows blocked cells (stars placed on solids can't be reached); a hero walking game needs the fill to cover the whole walkable area, not only the opening frame.
 
 ## How to learn a new skill from a GitHub link
 

@@ -498,8 +498,9 @@ export function createHarness({ bounds = { x0: -64, x1: 64, z0: -62, z1: 38 }, g
     addEventListener('pointermove', (e) => {
       if (!drag) return;
       drag.moved += Math.abs(e.movementX) + Math.abs(e.movementY);
-      view.tyaw = THREE.MathUtils.clamp(view.tyaw - e.movementX * 0.15, -12, 12);      // the world is filled where the camera
-      view.tpitch = THREE.MathUtils.clamp(view.tpitch + e.movementY * 0.12, 40, 55);  // looks; never so low the far edge shows
+      const OR = window.__papercraftOrbit;   // a game may widen the orbit: { yaw, pitch: [lo, hi] }
+      view.tyaw = THREE.MathUtils.clamp(view.tyaw - e.movementX * 0.15, OR ? -OR.yaw : -12, OR ? OR.yaw : 12);      // the world is filled where the camera
+      view.tpitch = THREE.MathUtils.clamp(view.tpitch + e.movementY * 0.12, OR ? OR.pitch[0] : 40, OR ? OR.pitch[1] : 55);  // looks; never so low the far edge shows
     });
     addEventListener('pointerup', () => { if (drag && drag.moved < 6 && !window.__papercraftNoFold) setOpen(!up); drag = null; });
 
